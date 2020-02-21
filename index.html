@@ -8,6 +8,7 @@
     <!--Original Style Sheets-->
     <link rel="stylesheet" href="css/main.css">
     <link rel ="stylesheet" href = "css/sidebar.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <!--External Style Sheets-->
 
@@ -16,12 +17,16 @@
 
     <!---------------------------------HEADER----------------------------------------->
     <header>
-        <div class="sidebar">
-            <div><img src = "images/small.png" id = "topImg"></div>
-            <a href="#">Strength</a>
-            <a href="#">Generator</a>
-            <a href="#">About</a>
-            <a href="#">Contact</a>
+        <div class="sidebar" id = "myTopnav">
+            <div><img src = "images/black.png" id = "topImg"></div>
+            <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+                <i class="fa fa-bars"></i>
+            </a>
+            <a href="#strength">Strength</a>
+            <a href="#generator">Generator</a>
+            <a href="#about">About</a>
+            <a href="#contact">Contact</a>
+            
             <div id = "bottomText">Created by James Proud</div>
           </div>
 
@@ -40,20 +45,23 @@
 
 
 
-
-
-
-
-
-
-
         </div>
 
 
 
 
 <!---------------------------------FOOTER----------------------------------------->
-
+<script>
+    /* Toggle between adding and removing the "responsive" class to topnav when the user clicks on the icon */
+    function myFunction() {
+    var x = document.getElementById("myTopnav");
+    if (x.className === "sidebar") {
+        x.className += " responsive";
+    } else {
+        x.className = "sidebar";
+    }
+    } 
+</script>
     
 </body>
 </html>
