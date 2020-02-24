@@ -1,24 +1,43 @@
 var pass = "";
+var strengthDOM = document.getElementById("strength");
+var ratingDOM = document.getElementById("rating");
+var passDOM = document.getElementById("password");
+var score;
+var trueLength;
 
 //CHECK THE STRENGTH OF THE USER'S PASSWORD////////////////////////////////////
-document.getElementById("password").addEventListener('keydown', function(e) { 
+passDOM.addEventListener('keyup', function(e) { 
+
+    trueLength = checkPasswordLength(); //check the current number of characters in the textbox
 
     //if the backspace is pressed trim a character
-    e.keyCode == 8 ? pass = pass.substr(0, pass.length - 1) : pass += e.key;
+    if (e.keyCode == 8) {
+
+        if (trueLength <= 1) { //check to see if user deleted the password
+            score = ["Very Weak", 0];
+            trueLength == 0 ? l = 0 : pass = pass.substr(0, trueLength - 1);
+        } else {
+            pass = pass.substr(0, trueLength - 1);
+            score = PasswordSecurity(pass);
+        }
+    } else {
+        pass += e.key
+        score = PasswordSecurity(pass);
+    }
+  
+    strengthDOM.textContent = `Password Strength: ${score[0]}`;
+    ratingDOM.textContent = `Rating: ${score[1]} /100`;
+       
     
-    var score = PasswordSecurity(pass);
-
-    //TODO: if array is empty return 0
-
-    document.getElementById("strength").textContent = `Password strength: ${score[0]}`;
-    document.getElementById("rating").textContent = `Rating: ${score[1]} /100`;
-
-
     //TODO: Display the score /100. Show pointers for how to improve. Change the bar depending on the strength.
     //TODO: Breakdown of each area /25 etc
 
 });
 
+function checkPasswordLength()
+{
+    return passDOM.value.length < 1 ?  0: passDOM.value.length;
+}
 
 function PasswordSecurity(pass)
 {
@@ -35,29 +54,31 @@ function PasswordSecurity(pass)
     if (!pass) //return 0 if no password is entered
         return score;
 
+     //TODO: if the user highlights and deletes the entire password reset score
+
     //award points for password length
-    if (passLength <= 4) {  //< 4
-        score += 0;
-    } else if (passLength > 4 && passLength <= 8) { // 5 - 8
-        score += 5;
-    } else if (passLength > 8 && passLength <= 11) { //9 - 11
-        score += 10;
-    } else if (passLength >= 12) { //12 +
+    if (passLength >= 12) {  // 12 +
         score += 25;
+    } else if (passLength > 8 && passLength <= 11) { // 9 - 11
+        score += 10;
+    } else if (passLength > 4 && passLength <= 8) { //5 - 8
+        score += 5;
+    } else if (passLength <= 4) { // < 4
+        score += 0;
     }
 
     numUpper = pass.length - pass.replace(/[A-Z]/g, '').length; //returns number of upper case
     numLower = pass.length - pass.replace(/[a-z]/g, '').length; //returns number of lower case
 
     //award points depending on how many upper and lower case characters using REGEX
-    if (!pass) //TODO: if the user highlights and deletes the entire password reset score
+    if (!pass) 
         return score;
-    if (passLength == numLower && passLength > 4) { //all letters are lower case
-        score += 10;
+    if (numUpper > 2 && numLower > 2) { //if there are multiple upper and lower case letters
+        score += 25;
     } else if (numUpper != 0 && numLower != 0) { //if there are a mix of upper and lower case letters
         score += 20;
-    } else if (numUpper > 2 && numLower > 2) { //if there are multiple upper and lower case letters
-        score += 25;
+    } else if (passLength == numLower && passLength > 4) { //all letters are lower case
+        score += 10;
     }
     //TODO: if the first characters is uppercase letter this is a pattern
 
@@ -91,7 +112,7 @@ function PasswordSecurity(pass)
     }
 
     //the number of chars in the password
-    numLetters = pass.match(/[a-zA-Z]/g, '').length;
+    numLetters = pass.replace(/[a-zA-Z]/g, '').length;
 
     //award bonus points depending on the mixture of characters, numbers, letters
     if (numLetters!= 0 && numInts != 0) {
@@ -113,16 +134,17 @@ function PasswordSecurity(pass)
         strength = "Very Secure"; //black
         passDOM.style.borderColor = "black";
     } else if (score >= 80) {
-        strength = "Secure"; //green
+        strength = "Very Strong"; //green
+        passDOM.style.borderColor = "#009900";
     } else if (score >= 70) {
-        strength = "Very Strong" //green
-        passDOM.style.borderColor = "green";
+        strength = "Strong" //green
+        passDOM.style.borderColor = "#1aff1a";
     } else if (score >= 60) {
-        strength = "Strong"; //orange
-        passDOM.style.borderColor = "orange";
+        strength = "Above Average"; //orange
+        passDOM.style.borderColor = "#e67300";
     } else if (score >= 50) {
         strength = "Average"; //orange
-        passDOM.style.borderColor = "orange";
+        passDOM.style.borderColor = "#ffa64d";
     } else if (score >= 25) {
         strength = "Weak"; //red
         passDOM.style.borderColor = "#DA252E";
@@ -130,13 +152,8 @@ function PasswordSecurity(pass)
         strength = "Very Weak"; //red
         passDOM.style.borderColor = "#DA252E";
     }
-
-    //        document.getElementById("password").style.border = "red";
-
     
-
-    var output = [strength,score];
-    
+    var output = [strength,score];   
     return output;
 }
 
