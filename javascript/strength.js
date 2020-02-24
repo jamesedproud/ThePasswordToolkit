@@ -2,47 +2,53 @@ var pass = "";
 var strengthDOM = document.getElementById("strength");
 var ratingDOM = document.getElementById("rating");
 var passDOM = document.getElementById("password");
-var score;
+var finalScore;
 var trueLength;
 
 //CHECK THE STRENGTH OF THE USER'S PASSWORD////////////////////////////////////
-passDOM.addEventListener('keyup', function(e) { 
-
-    trueLength = checkPasswordLength(); //check the current number of characters in the textbox
-
-    //if the backspace is pressed trim a character
-    if (e.keyCode == 8) {
-
-        if (trueLength <= 1) { //check to see if user deleted the password
-            score = ["Very Weak", 0];
-            trueLength == 0 ? l = 0 : pass = pass.substr(0, trueLength - 1);
-        } else {
-            pass = pass.substr(0, trueLength - 1);
-            score = PasswordSecurity(pass);
-        }
-    } else {
-        pass += e.key
-        score = PasswordSecurity(pass);
-    }
-  
-    strengthDOM.textContent = `Password Strength: ${score[0]}`;
-    ratingDOM.textContent = `Rating: ${score[1]} /100`;
-       
-    
+passDOM.addEventListener('keyup', function(e) {
     //TODO: Display the score /100. Show pointers for how to improve. Change the bar depending on the strength.
     //TODO: Breakdown of each area /25 etc
-
+    
+    var trueL = checkPasswordLength();
+    strengthInit(trueL, e);
 });
 
-function checkPasswordLength()
-{
-    return passDOM.value.length < 1 ?  0: passDOM.value.length;
+function strengthInit(trueL,eKey) {
+
+     //TODO: if the user copy and pastes a password.
+
+    console.log("True Length: " + trueL);
+
+        //if the backspace is pressed trim a character
+        if (eKey.keyCode == 8) {
+            if (trueL <= 1) { //check to see if user deleted the password
+                finalScore = ["Very Weak", 0];
+                document.getElementById("password").style.borderColor = "#DA252E";
+                pass = "";
+                trueL == 0 ? trueL = 0 : pass = pass.substr(0, trueL - 1);
+            } else {
+                pass = pass.substr(0, trueL - 1);
+                finalScore = PasswordSecurity(pass);
+            }
+        } else {
+            pass += eKey.key
+            //console.log("Pass: " + pass);
+            finalScore = PasswordSecurity(pass);
+        }
+
+        strengthDOM.textContent = `Password Strength: ${finalScore[0]}`;
+        ratingDOM.textContent = `Rating: ${finalScore[1]} /100`;
+
+}
+
+function checkPasswordLength() {
+    return passDOM.value.length < 1 ?  0 : passDOM.value.length;
 }
 
 function PasswordSecurity(pass)
 {
     var passDOM = document.getElementById("password");
-    var score = 0;
     var passLength = pass.length; //get the length of the password
     var numUpper;
     var numLower;
@@ -51,10 +57,10 @@ function PasswordSecurity(pass)
     var numLetters;
     var strength;
 
+    var score = 0;
+
     if (!pass) //return 0 if no password is entered
         return score;
-
-     //TODO: if the user highlights and deletes the entire password reset score
 
     //award points for password length
     if (passLength >= 12) {  // 12 +
@@ -101,14 +107,17 @@ function PasswordSecurity(pass)
     numCharacters = (pass.match(/[@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?£!~`§±]/g) || []).length;
 
     //award points depending on the special characters
-    if (numCharacters == 0) { //no special character
-        score += 0;
-    }  
-    if (numCharacters == 1) { //1 special character
-        score += 5;
-    } 
-    if (numCharacters >= 2) { //2+ special chatacters
-        score += 25;
+
+    if (pass.length > 4) {
+        if (numCharacters == 0) { //no special character
+            score += 0;
+        }  
+        if (numCharacters == 1) { //1 special character
+            score += 5;
+        } 
+        if (numCharacters >= 2) { //2+ special chatacters
+            score += 25;
+        }
     }
 
     //the number of chars in the password
@@ -140,14 +149,14 @@ function PasswordSecurity(pass)
         strength = "Strong" //green
         passDOM.style.borderColor = "#1aff1a";
     } else if (score >= 60) {
-        strength = "Above Average"; //orange
-        passDOM.style.borderColor = "#e67300";
+        strength = "Above Average"; //yellow
+        passDOM.style.borderColor = "#ffff00";
     } else if (score >= 50) {
         strength = "Average"; //orange
         passDOM.style.borderColor = "#ffa64d";
     } else if (score >= 25) {
-        strength = "Weak"; //red
-        passDOM.style.borderColor = "#DA252E";
+        strength = "Weak"; //orange
+        passDOM.style.borderColor = "#ffa64d";
     } else if (score >= 0) {
         strength = "Very Weak"; //red
         passDOM.style.borderColor = "#DA252E";
