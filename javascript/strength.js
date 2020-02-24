@@ -149,7 +149,7 @@ function PasswordSecurity(pass)
     //award a final score depending on password strength
     if (score >= 90)
     {
-        strength = "Very Secure"; //black
+        strength = "Secure"; //black
         passDOM.style.borderColor = "black";
     } else if (score >= 80) {
         strength = "Very Strong"; //green
@@ -175,7 +175,6 @@ function PasswordSecurity(pass)
     return output;
 }
 
-
 function Generator()
 {
     //TODO: Generate a random password
@@ -184,7 +183,7 @@ function Generator()
 
 function Encryption(pass)
 {
-    //TODO: encrpyt an entered password
+    //TODO: Press enter to encrpyt. Password box changes to green after encypted. be careful maybe sepetare box is better
 }
 
 

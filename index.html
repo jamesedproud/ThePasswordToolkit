@@ -22,11 +22,12 @@
             <a href="javascript:void(0);" class="icon" onclick="myFunction()">
                 <i class="fa fa-bars"></i>
             </a>
-            <a href="#strength">Password Security</a>
+            <a href="#strengthSection">Password Security</a>
             <a href="#generator">Generator</a>
-            <a href="#about">Encryptor</a>
+            <a href="#encryptor">Encryptor</a>
+            <a href="#tips">Tips</a>
             <a href="#contact">Contact</a>
-            
+
             <div id = "bottomText">Created by James Proud</div>
         </div>
 
@@ -41,16 +42,79 @@
    
 
         <div class="content">
-            
-            <h1>Is my password secure?</h1>
 
-            <form>
+            <h1><u>The Password Toolkit</u></h1>
+
+            <br>
+            
+            <section id = "strengthSection">
+                <h2><u>Password Security Check</u></h2>
                 <input type="password" id="password"><br><br>
                 <p id = "strength"></p>
                 <p id = "rating"></p>
-            </form> 
+            </section>
 
-            <h1>Password Encryptor</h1>
+            <section id = "generator">
+                <h2><u>Password Generator</u></h2>
+                <div id = "options">
+
+
+                </div>
+            </section>
+
+            <section id = "encryptor">
+                <h2><u>Password Encryptor</u></h2>
+                <input type="text" id="password2"><br><br>
+                <p id = "hashedPassword"></p>
+            </section>
+
+
+            <section id = "tips">
+                <h2><u>Password Tips</u></h2>
+                <br>
+                <h3>Password Basics</h3>
+                <p>
+                    A password is typically the least secure form of authentication. However, as they are most commonly used as the first
+                    line of defense it is important to ensure that the security of your password is as high as possible.
+                </p>
+
+                <br>
+
+                <h3>How to increase the security of your password</h3>
+                <p>
+                    Below is a non-extensive list of methods to increase password security:
+                </p>
+                <ul>
+                    <li><strong>Strong Passwords:</strong> At least 8 characters (ideally more than 12), multiple character types including upper case, lower case, numbers and symbols.</li>
+                    <br>
+                    <li><b>Repetition and Patterns: </b>Try to avoid repetition and patterns. An example
+                    of a commonly used pattern is a word, with the first letter being upper case, followed by a number (e.g London2015).</li>
+                    <br>
+                    <li><b>Avoid Common Passwords: </b>Do not use passwords that include pet names, postcodes, birthdays, phone numbers and so on. Any
+                    words that can be found in a dictionary should also be avoided.</li>
+                    <br>
+                    <li><b>Regularly change passwords: </b> Passwords should be changed on a regular basis (not to an old password).</li>
+                    <br>
+                    <li><b>Do not reuse passwords: </b>If a website you have an account with gets compromised, your other passwords will remain secure.</li>
+                    <br>
+                    <li><b>Use a passphrase: </b>PassWORD in itself gives the impression that you should use a word. However, using a passphrase 
+                    is much more secure (e.g Il0v3ThEPa$$wordTo0lk1t).</li>
+                    <br>
+                    <li><b>Bonus - use a password manager: </b>Any password managers want to sponsor me?</li>
+                </ul>
+            </section>
+                <br>
+
+            <section id = "contact">
+                <h2><u>Contact</u></h2>
+                <p>If you find any bugs or want to contact me please send an email to jamesproud@live.co.uk</p>
+                <p class = "footerTxt"><b>Note: </b>
+                    The Password Toolkit is an experimental tool developed for educational purposes only.
+                    Due to the limitations of the technology used, results may not always be accurate. All code is available on <a href = "https://github.com/jamesedproud/ThePasswordToolkit">Github.</a>
+                </p>
+                <p class = "footerTxt">Passwords are not stored.</p>
+                <p class = "footerTxt">Copyright © 2020</p>
+            </section>
 
         </div>
 
