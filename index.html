@@ -22,13 +22,13 @@
             <a href="javascript:void(0);" class="icon" onclick="myFunction()">
                 <i class="fa fa-bars"></i>
             </a>
-            <a href="#strength">Strength</a>
+            <a href="#strength">Password Security</a>
             <a href="#generator">Generator</a>
-            <a href="#about">About</a>
+            <a href="#about">Encrypter</a>
             <a href="#contact">Contact</a>
             
             <div id = "bottomText">Created by James Proud</div>
-          </div>
+        </div>
 
          
 
@@ -42,7 +42,13 @@
 
         <div class="content">
             
+            <h1>Is my password secure?</h1>
 
+            <form>
+                <input type="password" id="password"><br><br>
+                <p id = "strength"></p>
+                <p id = "rating"></p>
+            </form> 
 
 
         </div>
@@ -54,14 +60,16 @@
 <script>
     /* Toggle between adding and removing the "responsive" class to topnav when the user clicks on the icon */
     function myFunction() {
-    var x = document.getElementById("myTopnav");
-    if (x.className === "sidebar") {
-        x.className += " responsive";
-    } else {
-        x.className = "sidebar";
-    }
+        var x = document.getElementById("myTopnav");
+        if (x.className === "sidebar") {
+            x.className += " responsive";
+        } else {
+            x.className = "sidebar";
+        }
     } 
 </script>
+
+<script src="javascript/strength.js"></script>
     
 </body>
 </html>

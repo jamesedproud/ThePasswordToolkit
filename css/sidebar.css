@@ -61,7 +61,6 @@
   
   /* Links on mouse-over */
   .sidebar a:hover:not(.active) {
-    text-decoration: underline solid #DA252E;
     color: #DA252E;
   }
   
@@ -70,6 +69,7 @@
     margin-left: 190px;
     padding: 1px 16px;
     height: 100%;
+    
   }
 
 
@@ -91,7 +91,7 @@
       height: 70px;
       width: auto;
       padding-top:3px;
-      padding-right: 10px;
+      padding-right: 12px;
       margin-right: 0px;
       float: right;
       right:0;
@@ -103,10 +103,10 @@
   }
   
   /* On screens that are less than 621px, display the hamgburger menu instead of text */
-  @media screen and (max-width: 621px) {
+  @media screen and (max-width: 750px) {
     
     
-  .sidebar.responsive {position: relative; margin-top: -10px;margin-left:-8px;width:103%}
+  .sidebar.responsive {position: relative; margin-top: -10px;margin-left:-8px;width:105%}
   .sidebar a:not(:first-child) {display: none;}
   .sidebar.responsive a.icon {
         position: relative;
