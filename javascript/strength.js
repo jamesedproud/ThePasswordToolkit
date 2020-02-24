@@ -9,7 +9,7 @@ var trueLength;
 passDOM.addEventListener('keyup', function(e) {
     //TODO: Display the score /100. Show pointers for how to improve. Change the bar depending on the strength.
     //TODO: Breakdown of each area /25 etc
-    
+
     var trueL = checkPasswordLength();
     strengthInit(trueL, e);
 });
@@ -18,27 +18,36 @@ function strengthInit(trueL,eKey) {
 
      //TODO: if the user copy and pastes a password.
 
-    console.log("True Length: " + trueL);
+    //console.log("True Length: " + trueL);
 
         //if the backspace is pressed trim a character
-        if (eKey.keyCode == 8) {
-            if (trueL <= 1) { //check to see if user deleted the password
+        if (eKey.keyCode == 8 || eKey.key == "Shift") {
+            if (trueL < 1) { //check to see if user deleted the password
                 finalScore = ["Very Weak", 0];
                 document.getElementById("password").style.borderColor = "#DA252E";
                 pass = "";
-                trueL == 0 ? trueL = 0 : pass = pass.substr(0, trueL - 1);
+                trueL == 0 ? trueL = 0 : pass = pass.substr(0, trueL);
             } else {
-                pass = pass.substr(0, trueL - 1);
+                pass = pass.substr(0, trueL);
                 finalScore = PasswordSecurity(pass);
             }
         } else {
             pass += eKey.key
-            //console.log("Pass: " + pass);
+            console.clear();
+            console.log("Password: " + pass);
+            //console.log("Key: " + eKey.key);
             finalScore = PasswordSecurity(pass);
         }
 
-        strengthDOM.textContent = `Password Strength: ${finalScore[0]}`;
-        ratingDOM.textContent = `Rating: ${finalScore[1]} /100`;
+        if (trueL < 1)
+        {
+            strengthDOM.textContent = "";
+            ratingDOM.textContent = "";
+        } else {
+            strengthDOM.textContent = `Password Strength: ${finalScore[0]}`;
+            ratingDOM.textContent = `Rating: ${finalScore[1]} /100`;
+        }
+        
 
 }
 

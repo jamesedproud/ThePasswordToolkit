@@ -23,6 +23,7 @@ h1
     text-align: center;
     -webkit-transition: 0.5s;
     transition: 0.5s;
+    outline: none;
 }
 #password:focus
 {
