@@ -33,8 +33,8 @@ function strengthInit(trueL,eKey) {
             }
         } else {
             pass += eKey.key
-            console.clear();
-            console.log("Password: " + pass);
+            //console.clear();
+            //console.log("Password: " + pass);
             //console.log("Key: " + eKey.key);
             finalScore = PasswordSecurity(pass);
         }
@@ -57,6 +57,15 @@ function checkPasswordLength() {
 
 function PasswordSecurity(pass)
 {
+
+    //TODO: calculate password entropy
+//formula: only lowercase = 26
+//uppercase and lowercase = 52
+//numbers = 10
+//symbols, space and upper and lower case = 95
+//symbols, numbers, upper/lower case = 105
+//Log2(S^L) S = size of unique pool (above) L = length of password
+
     var passDOM = document.getElementById("password");
     var passLength = pass.length; //get the length of the password
     var numUpper;
@@ -67,6 +76,12 @@ function PasswordSecurity(pass)
     var strength;
 
     var score = 0;
+
+    var format = /[ !@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/; //special characters
+    format.test(pass);
+    console.log(format);
+
+    
 
     if (!pass) //return 0 if no password is entered
         return score;
@@ -139,7 +154,7 @@ function PasswordSecurity(pass)
     if (numLetters != 0 && numInts != 0 && numCharacters != 0) {
         score += 3; //mixture of letters, numbers, and special characters
     } 
-    if (numLower != 0 && numCharacters != 0 && numInts != 0) {
+    if (numLower != 0 && numCharacters != 0 && numInts != 0 && numUpper != 0) {
         score += 5; //mixture of upper, lower, numbers and special characters
     }
 
@@ -149,7 +164,7 @@ function PasswordSecurity(pass)
     //award a final score depending on password strength
     if (score >= 90)
     {
-        strength = "Secure"; //black
+        strength = "Extremely Strong"; //black
         passDOM.style.borderColor = "black";
     } else if (score >= 80) {
         strength = "Very Strong"; //green
@@ -158,11 +173,11 @@ function PasswordSecurity(pass)
         strength = "Strong" //green
         passDOM.style.borderColor = "#1aff1a";
     } else if (score >= 60) {
-        strength = "Above Average"; //yellow
-        passDOM.style.borderColor = "#ffff00";
+        strength = "Above Average"; //blue
+        passDOM.style.borderColor = "#0099ff";
     } else if (score >= 50) {
-        strength = "Average"; //orange
-        passDOM.style.borderColor = "#ffa64d";
+        strength = "Average"; //yellow
+        passDOM.style.borderColor = "#ffff00";
     } else if (score >= 25) {
         strength = "Weak"; //orange
         passDOM.style.borderColor = "#ffa64d";

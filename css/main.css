@@ -57,6 +57,16 @@ h1
     font-size: 13px;
 }
 
+#footer 
+{
+    background-color: #cccccc;
+    width:104.5%;
+    margin-left: -23px;
+    margin-bottom: -23px;
+    padding-top: 5px;
+    padding-bottom: 3px;
+    border-top: 1px solid black;
+}
 
 
 @media screen and (max-width: 900px) {

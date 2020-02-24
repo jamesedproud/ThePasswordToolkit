@@ -49,9 +49,18 @@
             
             <section id = "strengthSection">
                 <h2><u>Password Security Check</u></h2>
-                <input type="password" id="password"><br><br>
+                <p>Enter your password in the box below to see how secure it is.</p>
+                <input type="password" id="password" placeholder="Enter Password"><br><br>
                 <p id = "strength"></p>
                 <p id = "rating"></p>
+
+                <p>Points are awarded depending on the uniqueness of your password. <br> <br>The categories that your password are checked
+                    against include password length, number of upper and lower case letters, how many numbers there are, how many special
+                    characters have been used as well as what combination of the forementioned have been combined. <br> <br>
+                    Please note that password meters can sometimes cause degradation of password strength due to not encouraging randomness.
+                    <br><br>
+                    See the <a href = "#tips">Tips</a> section for more information on how to increase your password security. <br> <br>
+                </p>
             </section>
 
             <section id = "generator">
@@ -62,12 +71,15 @@
                 </div>
             </section>
 
+            <br> <br>
+
             <section id = "encryptor">
                 <h2><u>Password Encryptor</u></h2>
-                <input type="text" id="password2"><br><br>
+                <input type="text" id="password2" placeholder="Enter Password"><br><br>
                 <p id = "hashedPassword"></p>
             </section>
 
+            <br> <br>
 
             <section id = "tips">
                 <h2><u>Password Tips</u></h2>
@@ -85,35 +97,40 @@
                     Below is a non-extensive list of methods to increase password security:
                 </p>
                 <ul>
-                    <li><strong>Strong Passwords:</strong> At least 8 characters (ideally more than 12), multiple character types including upper case, lower case, numbers and symbols.</li>
+                    <li><strong>Strong Passwords:</strong> At the very least 8 characters (ideally at least 16), with multiple character types including upper case, lower case, numbers and symbols.</li>
                     <br>
                     <li><b>Repetition and Patterns: </b>Try to avoid repetition and patterns. An example
                     of a commonly used pattern is a word, with the first letter being upper case, followed by a number (e.g London2015).</li>
                     <br>
                     <li><b>Avoid Common Passwords: </b>Do not use passwords that include pet names, postcodes, birthdays, phone numbers and so on. Any
-                    words that can be found in a dictionary should also be avoided.</li>
+                    words that can be found in a dictionary should also be avoided. Using foreign words can increase the security.</li>
                     <br>
                     <li><b>Regularly change passwords: </b> Passwords should be changed on a regular basis (not to an old password).</li>
                     <br>
                     <li><b>Do not reuse passwords: </b>If a website you have an account with gets compromised, your other passwords will remain secure.</li>
                     <br>
-                    <li><b>Use a passphrase: </b>PassWORD in itself gives the impression that you should use a word. However, using a passphrase 
-                    is much more secure (e.g Il0v3ThEPa$$wordTo0lk1t).</li>
+                    <li><b>Use a passphrase: </b>Pass"WORD" in itself gives the impression that you should use a word. However, using a passphrase 
+                    is much more secure (e.g Il0v3ThEPa$$wordTo0lk1t). Passphrases can also be much easier to remember.</li>
+                    <br>
+                    <li><b>Randomness: </b>The more random the better. Increasing randomness will increase the character pool (the variation
+                    of upper and lower cases, symbols, numbers, etc).</li>
                     <br>
                     <li><b>Bonus - use a password manager: </b>Any password managers want to sponsor me?</li>
                 </ul>
             </section>
                 <br>
 
-            <section id = "contact">
-                <h2><u>Contact</u></h2>
-                <p>If you find any bugs or want to contact me please send an email to jamesproud@live.co.uk</p>
-                <p class = "footerTxt"><b>Note: </b>
-                    The Password Toolkit is an experimental tool developed for educational purposes only.
-                    Due to the limitations of the technology used, results may not always be accurate. All code is available on <a href = "https://github.com/jamesedproud/ThePasswordToolkit">Github.</a>
-                </p>
-                <p class = "footerTxt">Passwords are not stored.</p>
-                <p class = "footerTxt">Copyright © 2020</p>
+                <div id = "footer">
+                    <section id = "contact">
+                        <h2><u>Contact</u></h2>
+                        <p>If you find any bugs or want to contact me please send an email to jamesproud@live.co.uk</p>
+                    <p class = "footerTxt"><b>Note: </b>
+                        The Password Toolkit is an experimental tool developed for educational purposes only.
+                        Due to the limitations of the technology used, results may not always be accurate. All code is available on <a href = "https://github.com/jamesedproud/ThePasswordToolkit">Github</a>.
+                    </p>
+                    <p class = "footerTxt">All password functions operate locally on your machine and are not passed over the Internet.</p>
+                    <p class = "footerTxt">Copyright © 2020</p>
+                </div>
             </section>
 
         </div>
