@@ -36,6 +36,25 @@ h1
     width: 80%;
 }
 
+#resultContainer
+{
+    background-color: white;
+    width: 510px;
+    height:260px;
+    border-radius: 10px;
+    border: 3px solid black;
+    margin: auto;
+    margin-top: 20px;
+    -webkit-transition: 0.5s;
+    transition: 0.5s;
+    text-align: center;
+}
+
+.resultItem
+{
+    display:inline;
+}
+
 #options
 {
     margin:auto;
@@ -59,11 +78,11 @@ h1
 
 #footer 
 {
-    background-color: #cccccc;
+    background-color:#bfbfbf;
     width:104.5%;
     margin-left: -23px;
     margin-bottom: -23px;
-    padding-top: 5px;
+    padding-top: 1px;
     padding-bottom: 3px;
     border-top: 1px solid black;
 }
@@ -92,6 +111,11 @@ h1
         width: 400px;
     }
 
+    #resultContainer
+    {
+        width:400px;
+    }
+
 
 }
 
@@ -102,12 +126,13 @@ h1
         font-size: 30px;
     }
 
-    #password
+    #password, #password2
     {
         width: 60%;
+        font-size: 30px;
     }
 
-    #password:focus
+    #password:focus, #password2:focus
     {
         border: 4px solid #DA252E;
         width: 90%;
@@ -118,6 +143,21 @@ h1
         width: 280px
     }
 
+    #resultContainer
+    {
+        width: 280px;
+        height: 220px;
+        font-size: 13px;
+    }
+
+}
+
+@media screen and (max-width:400px)
+{
+    #password, #password2
+    {
+        font-size: 25px;
+    }
 }
 
 

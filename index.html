@@ -8,6 +8,7 @@
     <!--Original Style Sheets-->
     <link rel="stylesheet" href="css/main.css">
     <link rel ="stylesheet" href = "css/sidebar.css">
+    <link rel="stylesheet" href="css/tooltip.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <!--External Style Sheets-->
@@ -51,8 +52,36 @@
                 <h2><u>Password Security Check</u></h2>
                 <p>Enter your password in the box below to see how secure it is.</p>
                 <input type="password" id="password" placeholder="Enter Password"><br><br>
-                <p id = "strength"></p>
-                <p id = "rating"></p>
+
+                <!--
+                <div id = "resultContainer">
+                    <p id = "strength"></p>
+                    <p id = "rating"></p>
+                    <hr>
+                    <p id = "lengthScore" class = "resultItem"></p>
+                    <span class = "tooltip">Hint
+                        <span class = "tooltiptext" id= "lengthTip"></span>
+                    </span>
+                    <br>
+                    <p id = "lowerAndUpperScore" class = "resultItem"></p>
+                    <span class = "tooltip">Hint
+                        <span class = "tooltiptext" id= "lowerUpperHint"></span>
+                    </span>
+                    <p id = "noOfIntsScore" class = "resultItem"></p>
+                    <span class = "tooltip">Hint
+                        <span class = "tooltiptext" id= "intHint"></span>
+                    </span>
+                    <p id = "noOfSpecialsScore" class = "resultItem"></p>
+                    <span class = "tooltip">Hint
+                        <span class = "tooltiptext" id= "specialHint"></span>
+                    </span>
+                    <p id = "mixtureScore" class = "resultItem"></p>
+                    <span class = "tooltip">Hint
+                        <span class = "tooltiptext" id= "bonusHint"></span>
+                    </span>
+                </div>
+            -->
+                
 
                 <p>Points are awarded depending on the uniqueness of your password. <br> <br>The categories that your password are checked
                     against include password length, number of upper and lower case letters, how many numbers there are, how many special
@@ -120,8 +149,10 @@
             </section>
                 <br>
 
+<!---------------------------------FOOTER----------------------------------------->
+
+            <section id = "contact">
                 <div id = "footer">
-                    <section id = "contact">
                         <h2><u>Contact</u></h2>
                         <p>If you find any bugs or want to contact me please send an email to jamesproud@live.co.uk</p>
                     <p class = "footerTxt"><b>Note: </b>
@@ -138,7 +169,7 @@
 
 
 
-<!---------------------------------FOOTER----------------------------------------->
+<!---------------------------------END----------------------------------------->
 <script>
     /* Toggle between adding and removing the "responsive" class to topnav when the user clicks on the icon */
     function myFunction() {
