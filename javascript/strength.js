@@ -8,7 +8,6 @@ var trueLength;
 
 //CHECK THE STRENGTH OF THE USER'S PASSWORD////////////////////////////////////
 passDOM.addEventListener('keyup', function(e) {
-    //TODO: Show pointers for how to improve. 
     var trueL = checkPasswordLength();
     strengthInit(trueL, e);
 });
@@ -57,11 +56,11 @@ function strengthInit(trueL,eKey) {
             document.getElementById("strength").textContent = `Password Strength: ${finalScore[0]}`;
             document.getElementById("rating").textContent = `Rating: ${finalScore[1]} / 100`;
             document.getElementById("rating").style.fontWeight = "bold";
-            document.getElementById("lengthScore").textContent = `Length Score: ${finalScore[2]} / 25`;
-            document.getElementById("lowerAndUpperScore").textContent = `Lower/Upper Case Characters: ${finalScore[3]} / 25`;
+            document.getElementById("lengthScore").textContent = `Length: ${finalScore[2]} / 25`;
+            document.getElementById("lowerAndUpperScore").textContent = `Lower/Upper Case: ${finalScore[3]} / 25`;
             document.getElementById("noOfIntsScore").textContent = `Numbers: ${finalScore[4]} / 20`;
             document.getElementById("noOfSpecialsScore").textContent = `Symbols: ${finalScore[5]} / 25`;
-            document.getElementById("mixtureScore").textContent = `Variety Bonus: ${finalScore[6]} / 5`;
+            document.getElementById("mixtureScore").textContent = `Bonus: ${finalScore[6]} / 5`;
 
             //tips
             document.getElementById("lengthTip").textContent = finalScore[7];
@@ -117,10 +116,10 @@ function PasswordSecurity(pass)
     } else if (passLength > 4 && passLength <= 8) { //5 - 8
         score += 5;
         countScore += 5;
-        lengthTip = "Not strong enough";
+        lengthTip = "Weak. Add at least " + (9 - passLength) + " more characters";
     } else if (passLength <= 4) { // < 4
         score += 0;
-        lengthTip = "Very weak";
+        lengthTip = "Extremely vulnerable";
     }
 
     //return the score for this check only and then reset for the next check
@@ -140,22 +139,24 @@ function PasswordSecurity(pass)
     } else if (numUpper != 0 && numLower != 0) { //if there are a mix of upper and lower case letters
         score += 20;
         countScore += 20;
-        upperLowerTip = "Try to add more upper case letters";
+        if (numUpper >= 2)
+            upperLowerTip = "Try to add more lower case letters";
+        else 
+            upperLowerTip = "Try to add more upper case letters";
     } else if (passLength == numLower && passLength > 4) { //all letters are lower case
         score += 10;
         countScore += 10;
-        upperLowerTip = "No upper case";
+        upperLowerTip = "Contains no upper case";
     } else if (passLength <=4) {
         upperLowerTip = "Not long enough";
-    } else {
-        upperLowerTip = "No upper case";
+    } else if (numLower > 0 && numUpper == 0){
+        upperLowerTip = "Contains no upper case";
+    } else if (numUpper > 0 && numLower == 0) {
+        upperLowerTip = "Contains no lower case";
     }
-
 
     lowerandUpperScore = countScore;
     countScore = 0;
-    //TODO: if the first characters is uppercase letter this is a pattern
-
 
     //return the number of integers in the password
     numInts = pass.replace(/[^0-9]/g,"").length;
@@ -163,12 +164,12 @@ function PasswordSecurity(pass)
     //award points depending on the number of integers in the password
     if (numInts == 0) {
         score += 0; //no integers
-        intTip = "No numbers";
+        intTip = "Contains no numbers";
     } 
     if (numInts > 0 && numInts <= 3) { //1 - 3 numbers
         score += 10;
         countScore += 10;
-        intTip = "1 or 2 more numbers";
+        intTip = "Try to add " + (4 - numInts) + " more numbers";
     } 
     if (numInts > 3) { //4 or more numbers
         score += 20;
@@ -188,12 +189,12 @@ function PasswordSecurity(pass)
     if (pass.length > 4) {
         if (numCharacters == 0) { //no special character
             score += 0;
-            specialsTip = "No special characters";
+            specialsTip = "Contains no special characters";
         }  
         if (numCharacters == 1) { //1 special character
             score += 5;
             countScore += 5;
-            specialsTip = "Good. Try adding an extra character";
+            specialsTip = "Good. Try adding an extra symbol";
         } 
         if (numCharacters >= 2) { //2+ special chatacters
             score += 25;
@@ -215,14 +216,26 @@ function PasswordSecurity(pass)
         score += 5; //mixture of upper, lower, numbers and special characters
         countScore += 5;
         bonusTip = "Perfect!";
-    } else if (numLetters != 0 && numInts != 0 && numCharacters != 0) {
+    } else if (numLower != 0 && numInts != 0 && numCharacters != 0) {
         score += 3; //mixture of letters, numbers, and special characters
         countScore += 3;
-        bonusTip = "Try adding upper or lower case";
-    } else if (numLetters!= 0 && numInts != 0) {
+        bonusTip = "Contains no upper case";
+    } else if (numUpper != 0 && numInts != 0 && numCharacters != 0) {
+        score += 3;
+        countScore += 3;
+        bonusTip = "Contains no lower case";
+    } else if (numLower!= 0 && numUpper != 0 && numInts != 0 && numCharacters == 0) {
         score += 2; //mixture of numbers and letters
         countScore += 2;
-        bonusTip = "No special characters";
+        bonusTip = "Contains no symbols";
+    } else if (numLower != 0 && numUpper != 0 && numCharacters != 0) {
+        score += 2;
+        countScore += 2;
+        bonusTip = "Contains no numbers";
+    } else if (numLower != 0 && numUpper != 0) {
+        bonusTip = "Contains no numbers or symbols"
+    } else if (numCharacters != 0 && numInts != 0) {
+        bonusTip = "Contains no letters";
     } else {
         bonusTip = "Very weak variety";
     }
@@ -230,7 +243,7 @@ function PasswordSecurity(pass)
     mixtureScore = countScore;
     countScore = 0;
 
-    //TODO: check for common words
+    //TODO: check for repetition
     
 
     //award a final score depending on password strength
