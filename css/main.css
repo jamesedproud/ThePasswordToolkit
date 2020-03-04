@@ -40,11 +40,11 @@ h1
 {
     background-color: white;
     width: 510px;
-    height:260px;
-    border-radius: 10px;
+    height:360px;
     border: 3px solid black;
     margin: auto;
     margin-top: 20px;
+    padding-bottom: 10px;
     -webkit-transition: 0.5s;
     transition: 0.5s;
     text-align: center;
@@ -140,13 +140,13 @@ h1
 
     #options
     {
-        width: 280px
+        width: 280px;
     }
 
     #resultContainer
     {
         width: 280px;
-        height: 220px;
+        height: 290px;
         font-size: 13px;
     }
 

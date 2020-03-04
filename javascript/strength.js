@@ -1,9 +1,9 @@
 var pass = "";
 var contentDOM = document.getElementsByClassName("content");
 var passDOM = document.getElementById("password");
-
 var finalScore;
 var trueLength;
+var byId = document.getElementById.bind(document);
 
 
 //CHECK THE STRENGTH OF THE USER'S PASSWORD////////////////////////////////////
@@ -15,7 +15,7 @@ passDOM.addEventListener('keyup', function(e) {
 function strengthInit(trueL,eKey) {
 
     //var html = ' <div id = "resultContainer"><p id = "strength"></p><p id = "rating"></p><hr><p id = "lengthScore"></p><p id = "lowerAndUpperScore"></p><p id = "noOfIntsScore"></p><p id = "noOfSpecialsScore"></p><p id = "mixtureScore"></p></div>';
-    var html =  '<div id = "resultContainer"><p id = "strength"></p><p id = "rating"></p><hr><p id = "lengthScore" class = "resultItem"></p><span class = "tooltip">Hint<span class = "tooltiptext" id= "lengthTip"></span></span><br><br><p id = "lowerAndUpperScore" class = "resultItem"></p><span class = "tooltip">Hint<span class = "tooltiptext" id= "lowerUpperHint"></span></span><br><br><p id = "noOfIntsScore" class = "resultItem"></p><span class = "tooltip">Hint<span class = "tooltiptext" id= "intHint"></span></span><br><br><p id = "noOfSpecialsScore" class = "resultItem"></p><span class = "tooltip">Hint<span class = "tooltiptext" id= "specialHint"></span></span><br><br><p id = "mixtureScore" class = "resultItem"></p><span class = "tooltip">Hint<span class = "tooltiptext" id= "bonusHint"></span></span></div>';
+    var html =  '<div id = "resultContainer"><h3><u>Results</u></h3><p id = "strength"></p><p id = "entropy"></p><p id = "rating" class = "resultItem"></p><span class = "tooltip">Info<span class = "tooltiptext" id= "ratingHint"></span></span><hr><div style = "margin-top: 10px;"><p id = "lengthScore" class = "resultItem"></p><span class = "tooltip">Hint<span class = "tooltiptext" id= "lengthTip"></span></span><br><br><p id = "lowerAndUpperScore" class = "resultItem"></p><span class = "tooltip">Hint<span class = "tooltiptext" id= "lowerUpperHint"></span></span><br><br><p id = "noOfIntsScore" class = "resultItem"></p><span class = "tooltip">Hint<span class = "tooltiptext" id= "intHint"></span></span><br><br><p id = "noOfSpecialsScore" class = "resultItem"></p><span class = "tooltip">Hint<span class = "tooltiptext" id= "specialHint"></span></span><br><br><p id = "mixtureScore" class = "resultItem"></p><span class = "tooltip">Hint<span class = "tooltiptext" id= "bonusHint"></span></span><hr><p id = "bonus" class = "bonus"></p></div></div>';
 
      //TODO: if the user copy and pastes a password.
 
@@ -41,43 +41,49 @@ function strengthInit(trueL,eKey) {
             finalScore = PasswordSecurity(pass);
         }
 
-        if (trueL < 1) //clear the DOM if no password has been entered
-        {
-            //remove the results container
-            //if (document.body.contains(document.getElementById("resultContainer")));
-               // document.getElementById("resultContainer").remove();
-        } else { //print the results of the password to the DOM
-
+        if (trueL >= 1) {
             //insert the results containers
             if (!document.body.contains(document.getElementById("resultContainer")))
                 passDOM.insertAdjacentHTML('afterend',html);
 
-            //scores and rating
-            document.getElementById("strength").textContent = `Password Strength: ${finalScore[0]}`;
-            document.getElementById("rating").textContent = `Rating: ${finalScore[1]} / 100`;
-            document.getElementById("rating").style.fontWeight = "bold";
-            document.getElementById("lengthScore").textContent = `Length: ${finalScore[2]} / 25`;
-            document.getElementById("lowerAndUpperScore").textContent = `Lower/Upper Case: ${finalScore[3]} / 25`;
-            document.getElementById("noOfIntsScore").textContent = `Numbers: ${finalScore[4]} / 20`;
-            document.getElementById("noOfSpecialsScore").textContent = `Symbols: ${finalScore[5]} / 25`;
-            document.getElementById("mixtureScore").textContent = `Bonus: ${finalScore[6]} / 5`;
+            var results = ["strength","rating","entropy","lengthScore","lowerAndUpperScore","noOfIntsScore","noOfSpecialsScore","mixtureScore"];
+            var labels = ["Password Strength: ", "Rating: ", "Entropy: ", "Length: ", "Lower/Upper Case: ", "Numbers: ","Symbols: ","Variety: "];
+            var totals = ["", " / 100", "", " / 25", " / 25", " / 20", " / 25", " / 5"];
 
-            //tips
-            document.getElementById("lengthTip").textContent = finalScore[7];
-            document.getElementById("lowerUpperHint").textContent = finalScore[8];
-            document.getElementById("intHint").textContent = finalScore[9];
-            document.getElementById("specialHint").textContent = finalScore[10];
-            document.getElementById("bonusHint").textContent = finalScore[11];
+            //populate the results container
+            byId("rating").style.fontWeight = "bold";
+            updateResults(finalScore,results,labels,totals);
+            byId("bonus").textContent = finalScore[13];
+
+            //populate the tooltips
+            var tips = ["lengthTip", "lowerUpperHint", "intHint", "specialHint", "bonusHint"];
+            updateTips(finalScore,tips);
+            document.getElementById("ratingHint").textContent = "This score is only to encourage entropy";
         }
 
         //console.clear();
-        console.log("Password: " + pass + "// Length: " + trueL  + "// Keycode = " + eKey.keyCode + "/" + eKey.key);
+        //console.log("Password: " + pass + "// Length: " + trueL  + "// Keycode = " + eKey.keyCode + "/" + eKey.key + " /" + finalScore[2]);
         
-
 }
 
 function checkPasswordLength() {
     return passDOM.value.length < 1 ?  0 : passDOM.value.length;
+}
+
+function updateResults(finalScore,results,labels,totals) {
+
+   for (let i = 0; i < results.length; i++) {
+       byId(results[i]).textContent = `${labels[i]}${finalScore[i]}${totals[i]}`;
+   }
+}
+
+function updateTips(finalScore,tips) {
+
+    let j = 8;
+    for (let i = 0; i < tips.length; i++) {
+        byId(tips[i]).textContent = finalScore[j];
+        j++;
+    }
 }
 
 function PasswordSecurity(pass)
@@ -85,21 +91,10 @@ function PasswordSecurity(pass)
     var passDOM = document.getElementById("password");
     var passLength = pass.length; //get the length of the password
     var numUpper, numLower, numInts, numCharacters, numLetters,strength,lengthScore,lowerAndUpperScore,noOfIntsScore,noOfSpecialCharsScore,mixtureScore;
-    var countScore = 0;
-    var score = 0;
+    var countScore = 0, score = 0;
     var lengthTip, upperLowerTip, intTip, specialsTip, bonusTip;
-
-    //TODO: here for password entropy
-   // var format = /[ !@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/; //special characters
-    //format.test(pass);
-
-    //formula: only lowercase = 26
-    //uppercase and lowercase = 52
-    //numbers = 10
-    //symbols, space and upper and lower case = 95
-    //symbols, numbers, upper/lower case = 105
-    //Log2(S^L) S = size of unique pool (above) L = length of password
-    
+    var possibleCombinations, entropy, poolSize = 0;
+    var hasRepetition = false;
 
     if (!pass) //return 0 if no password is entered
         return score;
@@ -146,13 +141,13 @@ function PasswordSecurity(pass)
     } else if (passLength == numLower && passLength > 4) { //all letters are lower case
         score += 10;
         countScore += 10;
-        upperLowerTip = "Contains no upper case";
+        upperLowerTip = "Does not contain upper case";
     } else if (passLength <=4) {
         upperLowerTip = "Not long enough";
     } else if (numLower > 0 && numUpper == 0){
-        upperLowerTip = "Contains no upper case";
+        upperLowerTip = "Does not contain upper case";
     } else if (numUpper > 0 && numLower == 0) {
-        upperLowerTip = "Contains no lower case";
+        upperLowerTip = "Does not contain lower case";
     }
 
     lowerandUpperScore = countScore;
@@ -164,7 +159,7 @@ function PasswordSecurity(pass)
     //award points depending on the number of integers in the password
     if (numInts == 0) {
         score += 0; //no integers
-        intTip = "Contains no numbers";
+        intTip = "Does not contain numbers";
     } 
     if (numInts > 0 && numInts <= 3) { //1 - 3 numbers
         score += 10;
@@ -177,7 +172,6 @@ function PasswordSecurity(pass)
         intTip = "Perfect!";
     }
 
-
     noOfIntsScore = countScore;
     countScore = 0;
 
@@ -189,7 +183,7 @@ function PasswordSecurity(pass)
     if (pass.length > 4) {
         if (numCharacters == 0) { //no special character
             score += 0;
-            specialsTip = "Contains no special characters";
+            specialsTip = "Does not contain symbols";
         }  
         if (numCharacters == 1) { //1 special character
             score += 5;
@@ -201,8 +195,12 @@ function PasswordSecurity(pass)
             countScore += 25;
             specialsTip = "Perfect!";
         }
-    } else {
-        specialsTip = "Not long enough";
+    } else if (numCharacters == 0){
+        specialsTip = "No symbols";
+    } else if (numCharacters == 1) {
+        specialsTip = "Good. Try adding an extra symbol";
+    } else if (numCharacters >= 2) {
+        specialsTip = "Must contain at least 5 characters";
     }
 
     noOfSpecialCharsScore = countScore;
@@ -219,23 +217,23 @@ function PasswordSecurity(pass)
     } else if (numLower != 0 && numInts != 0 && numCharacters != 0) {
         score += 3; //mixture of letters, numbers, and special characters
         countScore += 3;
-        bonusTip = "Contains no upper case";
+        bonusTip = "Does not contain upper case";
     } else if (numUpper != 0 && numInts != 0 && numCharacters != 0) {
         score += 3;
         countScore += 3;
-        bonusTip = "Contains no lower case";
+        bonusTip = "Does not contain lower case";
     } else if (numLower!= 0 && numUpper != 0 && numInts != 0 && numCharacters == 0) {
         score += 2; //mixture of numbers and letters
         countScore += 2;
-        bonusTip = "Contains no symbols";
+        bonusTip = "Does not contain any symbols";
     } else if (numLower != 0 && numUpper != 0 && numCharacters != 0) {
         score += 2;
         countScore += 2;
-        bonusTip = "Contains no numbers";
+        bonusTip = "Does not contain numbers";
     } else if (numLower != 0 && numUpper != 0) {
-        bonusTip = "Contains no numbers or symbols"
+        bonusTip = "Does not contain numbers or symbols"
     } else if (numCharacters != 0 && numInts != 0) {
-        bonusTip = "Contains no letters";
+        bonusTip = "Does not contain letters";
     } else {
         bonusTip = "Very weak variety";
     }
@@ -243,47 +241,87 @@ function PasswordSecurity(pass)
     mixtureScore = countScore;
     countScore = 0;
 
-    //TODO: check for repetition
-    
+    //TODO: check for repetition, patterns and commonly used words
+    //calculate pool size
+    numUpper > 0 ? poolSize += 26 : poolSize += 0;
+    numLower > 0 ? poolSize += 26 : poolSize += 0;
+    numInts > 0 ? poolSize += 10 : poolSize += 0;
+    numCharacters > 0 ? poolSize += 33 : poolSize += 0;
 
-    //award a final score depending on password strength
-    if (score >= 90)
-    {
-        strength = "Extremely Strong"; //black
-        passDOM.style.borderColor = "black";
-    } else if (score >= 80) {
-        strength = "Very Strong"; //green
-        passDOM.style.borderColor = "#009900";
-    } else if (score >= 70) {
-        strength = "Strong" //green
-        passDOM.style.borderColor = "#1aff1a";
-    } else if (score >= 60) {
-        strength = "Above Average"; //blue
-        passDOM.style.borderColor = "#0099ff";
-    } else if (score >= 50) {
-        strength = "Average"; //yellow
-        passDOM.style.borderColor = "#e6e600";
-    } else if (score >= 25) {
-        strength = "Weak"; //orange
-        passDOM.style.borderColor = "#ffa64d";
-    } else if (score >= 0) {
-        strength = "Very Weak"; //red
-        passDOM.style.borderColor = "#DA252E";
+    //calculate possible combinations
+    possibleCombinations = poolSize ** pass.length;
+
+
+    //calculate password entropy to 2 decimal places
+    entropy = Math.log2(possibleCombinations).toFixed(2);
+
+    //check for sequencial repetition
+   var count = 1;
+   var result = pass.charAt(0);
+    for (var i = 1; i < pass.length; i++) {
+        if (pass.charAt(i) != pass.charAt(i-1)) {
+            result += count + pass.charAt(i);
+            count = 1;
+        } else {
+            count++;
+        }
+        if (count >= 5) {
+            hasRepetition = true;
+            break;
+        } else { 
+            hasRepetition = false;
+        }
     }
+
+    //TODO: check for repetition based on sequences. L33T checking, keyboard runs
     
-    var output = [strength,score,lengthScore,lowerandUpperScore,noOfIntsScore,noOfSpecialCharsScore,mixtureScore,lengthTip,upperLowerTip,intTip,specialsTip,bonusTip];   
+    //console.log(hasRepetition);
+
+
+ 
+    //TODO: add an image based on the score
+    //award a final score based on password entropy
+    if (entropy >= 300 && !hasRepetition) {
+        strength = "You are just mashing the keyboard, aren't you?"
+        passDOM.style.borderLeftStyle = "black";
+    } else if (entropy >= 130 && !hasRepetition) {
+        strength = "Practically Overkill";
+        passDOM.style.borderColor = "black";
+    } else if (entropy >= 110 && !hasRepetition) {
+        strength = "Very Strong";
+        passDOM.style.borderColor = "black";
+    } else if (entropy >= 90 && !hasRepetition) {
+        strength = "Strong" ;
+        passDOM.style.borderColor = "#009900" //green
+    } else if (entropy >= 60) {
+        strength = "Above Average"
+        passDOM.style.borderColor = "#0099ff"; //blue
+    } else if (entropy >= 45) {
+        strength = "Average";
+        passDOM.style.borderColor = "#e6e600"; //yellow
+    } else if (entropy >= 35) {
+        strength = "Weak";
+        passDOM.style.borderColor = "#ffa64d"; //orange
+    } else if (entropy >= 0) {
+        strength = "Very Weak";
+        passDOM.style.borderColor = "#DA252E"; //red
+    } else { //contains repetition
+        strength = "Average";
+        passDOM.style.borderColor = "#e6e600"; //yellow
+    }
+
+    var extra;
+
+    if (hasRepetition)
+        extra = "Extra: Password contains a repeated pattern";
+    else
+        extra = "Extra: Nothing unusual";
+
+
+    var output = [strength,score,entropy,lengthScore,lowerandUpperScore,noOfIntsScore,noOfSpecialCharsScore,mixtureScore,lengthTip,upperLowerTip,intTip,specialsTip,bonusTip,extra];   
     return output;
 }
 
-function Generator()
-{
-    //TODO: Generate a random password
-}
 
-
-function Encryption(pass)
-{
-    //TODO: Press enter to encrpyt. Password box changes to green after encypted. be careful maybe sepetare box is better
-}
 
 

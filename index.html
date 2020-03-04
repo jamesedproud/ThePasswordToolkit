@@ -55,8 +55,13 @@
 
                 <!--
                 <div id = "resultContainer">
+                    <h3> Results </h3>
                     <p id = "strength"></p>
-                    <p id = "rating"></p>
+                    <p id = "entropy"></p>
+                    <p id = "rating" class = "resultItem"></p>
+                    <span class = "tooltip">Info
+                        <span class = "tooltiptext" id= "ratingHint"></span>
+                    </span>
                     <hr>
                     <p id = "lengthScore" class = "resultItem"></p>
                     <span class = "tooltip">Hint
@@ -79,14 +84,19 @@
                     <span class = "tooltip">Hint
                         <span class = "tooltiptext" id= "bonusHint"></span>
                     </span>
+                    <hr>
+                    <p id = "bonus" class = "bonus"></p>
                 </div>
             -->
                 
 
                 <p>Points are awarded depending on the uniqueness of your password. <br> <br>The categories that your password are checked
                     against include password length, number of upper and lower case letters, how many numbers there are, how many special
-                    characters have been used as well as what combination of the forementioned have been combined. <br> <br>
-                    Please note that password meters can sometimes cause degradation of password strength due to not encouraging randomness.
+                    characters have been used as well as what combination of the forementioned have been combined. Ultimately, the strength 
+                    of your password is based on its entropy.<br> <br>
+                    Note that password meters are not perfect and can sometimes promote degradation of password strength due to not encouraging randomness.
+                    For example, if a hacker knows the strength rules for a password meter, it becomes much easier for them to crack your password.
+                    Please see the <a href="#passwordEntropy">Password Entropy</a> section for more information.
                     <br><br>
                     See the <a href = "#tips">Tips</a> section for more information on how to increase your password security. <br> <br>
                 </p>
@@ -95,8 +105,6 @@
             <section id = "generator">
                 <h2><u>Password Generator</u></h2>
                 <div id = "options">
-
-
                 </div>
             </section>
 
@@ -115,8 +123,24 @@
                 <br>
                 <h3>Password Basics</h3>
                 <p>
-                    A password is typically the least secure form of authentication. However, as they are most commonly used as the first
+                    A password is typically the <span class = "tooltip" style="margin-left: 0px;">least secure form of authentication
+                        <span class = "tooltiptext">Multi-factor authentication is undisputably the strongest approach to account security</span>
+                    </span>. However, as they are most commonly used as the first
                     line of defense it is important to ensure that the security of your password is as high as possible.
+                </p>
+
+                
+                <h3 id = "passwordEntropy">Password Entropy</h3>
+                <p>Password entropy is the amount of randomness in a password. It can be used to determine roughly how long it would take for a password to be cracked using brute-force methods.
+                    Entropy is calculated in bits, for example, a password with 50 bits of entropy is as strong as a string of 50 randomly
+                    chosen bits. The base-2 logarithm of that number is used to calculate the possible number of attempts to crack a password
+                    during a brute-force attack. E.g. 50 bits entropy (2^50) = 1,125,899,906,842,624 possible attempts. <br><br> On average, a hacker will only require half of the possible attempts before cracking
+                    the password. Take for example, a password of 4 characters with only lower case letters. There are 456,976 possible combinations that the 
+                    password could be (26 possible characters so 26^4) with an entropy of <span class = "tooltip"  style = "margin-left:0;">18.80<span class = "tooltiptext">2^18.80 = 456,976</span></span> (log2(26^4)).<br><br> By increasing the password by just one letter, the possible combinations jumps to 11,881,376. From this, we can see that by just increasing the entropy of a password by 1 bit, the possible attempts significantly increases.
+                    By understanding this, it becomes clear that the single most important factor when creating a strong password is length. <br><br>
+                    Don't be fooled by the size of these numbers though, as computing power increases the number of passwords that can be guessed per second also increases.
+                    With the correct equipment, a hacker can test billions of passwords per second. This is why maximizing the character pool is also important (numbers, symbols, upper/lower case). <br><br>
+                    People are notoriously bad at creating passwords, with the average password entropy being 40.54 bits.<br> <a href="#strengthSection">Test your password</a> and see how your password compares.
                 </p>
 
                 <br>
@@ -142,9 +166,10 @@
                     is much more secure (e.g Il0v3ThEPa$$wordTo0lk1t). Passphrases can also be much easier to remember.</li>
                     <br>
                     <li><b>Randomness: </b>The more random the better. Increasing randomness will increase the character pool (the variation
-                    of upper and lower cases, symbols, numbers, etc).</li>
+                    of upper and lower cases, symbols, numbers, etc) and thus increases the entropy of the password.</li>
                     <br>
-                    <li><b>Bonus - use a password manager: </b>Any password managers want to sponsor me?</li>
+                    <li><b>Bonus - use a password manager: </b>Remembering multiple passwords can be difficult. Using a password manager
+                    can be useful when using multiple passwords.</li>
                 </ul>
             </section>
                 <br>

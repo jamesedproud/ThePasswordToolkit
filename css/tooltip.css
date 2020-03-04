@@ -7,7 +7,8 @@
   
   .tooltip .tooltiptext {
     visibility: hidden;
-    width: 120px;
+    min-width: 120px;
+    max-width: 800px;
     background-color: black;
     color: #fff;
     text-align: center;
