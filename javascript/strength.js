@@ -2,33 +2,31 @@ var pass = "";
 var contentDOM = document.getElementsByClassName("content");
 var passDOM = document.getElementById("password");
 var finalScore;
-var trueLength;
 var byId = document.getElementById.bind(document);
 
 
 //CHECK THE STRENGTH OF THE USER'S PASSWORD////////////////////////////////////
-passDOM.addEventListener('keyup', function(e) {
-    var trueL = checkPasswordLength();
-    strengthInit(trueL, e);
+passDOM.addEventListener('keydown', function(e) {
+    strengthInit(e);
 });
 
-function strengthInit(trueL,eKey) {
+function strengthInit(eKey) {
 
     //var html = ' <div id = "resultContainer"><p id = "strength"></p><p id = "rating"></p><hr><p id = "lengthScore"></p><p id = "lowerAndUpperScore"></p><p id = "noOfIntsScore"></p><p id = "noOfSpecialsScore"></p><p id = "mixtureScore"></p></div>';
-    var html =  '<div id = "resultContainer"><h3><u>Results</u></h3><p id = "strength"></p><p id = "entropy"></p><p id = "rating" class = "resultItem"></p><span class = "tooltip">Info<span class = "tooltiptext" id= "ratingHint"></span></span><hr><div style = "margin-top: 10px;"><p id = "lengthScore" class = "resultItem"></p><span class = "tooltip">Hint<span class = "tooltiptext" id= "lengthTip"></span></span><br><br><p id = "lowerAndUpperScore" class = "resultItem"></p><span class = "tooltip">Hint<span class = "tooltiptext" id= "lowerUpperHint"></span></span><br><br><p id = "noOfIntsScore" class = "resultItem"></p><span class = "tooltip">Hint<span class = "tooltiptext" id= "intHint"></span></span><br><br><p id = "noOfSpecialsScore" class = "resultItem"></p><span class = "tooltip">Hint<span class = "tooltiptext" id= "specialHint"></span></span><br><br><p id = "mixtureScore" class = "resultItem"></p><span class = "tooltip">Hint<span class = "tooltiptext" id= "bonusHint"></span></span><hr><p id = "bonus" class = "bonus"></p></div></div>';
+    var html =  '<div id = "resultContainer"><h3><u>Overall Results</u></h3><p id = "strength"></p><p id = "entropy"></p><p id = "rating" class = "resultItem"></p><span class = "tooltip">Info<span class = "tooltiptext" id= "ratingHint"></span></span><hr><div style = "margin-top: 10px;"><p id = "lengthScore" class = "resultItem"></p><span class = "tooltip">Hint<span class = "tooltiptext" id= "lengthTip"></span></span><br><br><p id = "lowerAndUpperScore" class = "resultItem"></p><span class = "tooltip">Hint<span class = "tooltiptext" id= "lowerUpperHint"></span></span><br><br><p id = "noOfIntsScore" class = "resultItem"></p><span class = "tooltip">Hint<span class = "tooltiptext" id= "intHint"></span></span><br><br><p id = "noOfSpecialsScore" class = "resultItem"></p><span class = "tooltip">Hint<span class = "tooltiptext" id= "specialHint"></span></span><br><br><p id = "mixtureScore" class = "resultItem"></p><span class = "tooltip">Hint<span class = "tooltiptext" id= "bonusHint"></span></span><hr><h3>Dictionary Attacks</h3><p id = "bonus" class = "bonus"></p></div></div>';
 
      //TODO: if the user copy and pastes a password.
 
         //if the backspace is pressed trim a character
         if (eKey.keyCode == 8) {
-            if (trueL < 1) { //check to see if user deleted the password
+            if (pass.length == 1) { //check to see if user deleted the password
                 finalScore = ["Very Weak", 0];
                 document.getElementById("password").style.borderColor = "#DA252E";
                 pass = "";
-                trueL == 0 ? trueL = 0 : pass = pass.substr(0, trueL);
+                pass.slice(0,-1);
                 document.getElementById("resultContainer").remove(); //remove the results container
             } else {
-                pass = pass.substr(0, trueL);
+                pass = pass.slice(0, -1);
                 finalScore = PasswordSecurity(pass);
             }
         } else if (eKey.keyCode == 46 ) {  //Delete key was pressed  //TODO: determine the lcoation of the cursor and delete one before or after
@@ -41,7 +39,7 @@ function strengthInit(trueL,eKey) {
             finalScore = PasswordSecurity(pass);
         }
 
-        if (trueL >= 1) {
+        if (pass.length >= 1) {
             //insert the results containers
             if (!document.body.contains(document.getElementById("resultContainer")))
                 passDOM.insertAdjacentHTML('afterend',html);
@@ -61,8 +59,8 @@ function strengthInit(trueL,eKey) {
             document.getElementById("ratingHint").textContent = "This score is only to encourage entropy";
         }
 
-        //console.clear();
-        //console.log("Password: " + pass + "// Length: " + trueL  + "// Keycode = " + eKey.keyCode + "/" + eKey.key + " /" + finalScore[2]);
+        console.clear();
+        console.log("Password: " + pass + "// Length: " + pass.length  + "// Keycode = " + eKey.keyCode + "/" + eKey.key + " /" + finalScore[2]);
         
 }
 
@@ -241,7 +239,7 @@ function PasswordSecurity(pass)
     mixtureScore = countScore;
     countScore = 0;
 
-    //TODO: check for repetition, patterns and commonly used words
+    //TODO: check for repetition, patterns and commonly used words for dictionary attack
     //calculate pool size
     numUpper > 0 ? poolSize += 26 : poolSize += 0;
     numLower > 0 ? poolSize += 26 : poolSize += 0;
@@ -313,9 +311,9 @@ function PasswordSecurity(pass)
     var extra;
 
     if (hasRepetition)
-        extra = "Extra: Password contains a repeated pattern";
+        extra = "Repetition: Password contains a repeated pattern";
     else
-        extra = "Extra: Nothing unusual";
+        extra = "Repetition: Nothing unusual";
 
 
     var output = [strength,score,entropy,lengthScore,lowerandUpperScore,noOfIntsScore,noOfSpecialCharsScore,mixtureScore,lengthTip,upperLowerTip,intTip,specialsTip,bonusTip,extra];   
