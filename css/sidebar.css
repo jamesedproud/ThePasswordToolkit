@@ -41,6 +41,7 @@
     left:0;
     top:0;
     border-right: 2px solid grey;
+    z-index: 2;
   }
   
   /* Sidebar links */

@@ -10,32 +10,47 @@ passDOM.addEventListener('keydown', function(e) {
     strengthInit(e);
 });
 
+
 function strengthInit(eKey) {
 
     //var html = ' <div id = "resultContainer"><p id = "strength"></p><p id = "rating"></p><hr><p id = "lengthScore"></p><p id = "lowerAndUpperScore"></p><p id = "noOfIntsScore"></p><p id = "noOfSpecialsScore"></p><p id = "mixtureScore"></p></div>';
     var html =  '<div id = "resultContainer"><h3><u>Overall Results</u></h3><p id = "strength"></p><p id = "entropy"></p><p id = "rating" class = "resultItem"></p><span class = "tooltip">Info<span class = "tooltiptext" id= "ratingHint"></span></span><hr><div style = "margin-top: 10px;"><p id = "lengthScore" class = "resultItem"></p><span class = "tooltip">Hint<span class = "tooltiptext" id= "lengthTip"></span></span><br><br><p id = "lowerAndUpperScore" class = "resultItem"></p><span class = "tooltip">Hint<span class = "tooltiptext" id= "lowerUpperHint"></span></span><br><br><p id = "noOfIntsScore" class = "resultItem"></p><span class = "tooltip">Hint<span class = "tooltiptext" id= "intHint"></span></span><br><br><p id = "noOfSpecialsScore" class = "resultItem"></p><span class = "tooltip">Hint<span class = "tooltiptext" id= "specialHint"></span></span><br><br><p id = "mixtureScore" class = "resultItem"></p><span class = "tooltip">Hint<span class = "tooltiptext" id= "bonusHint"></span></span><hr><h3>Dictionary Attacks</h3><p id = "bonus" class = "bonus"></p></div></div>';
+    var result;
 
      //TODO: if the user copy and pastes a password.
 
         //if the backspace is pressed trim a character
         if (eKey.keyCode == 8) {
-            if (pass.length == 1) { //check to see if user deleted the password
-                finalScore = ["Very Weak", 0];
-                document.getElementById("password").style.borderColor = "#DA252E";
-                pass = "";
-                pass.slice(0,-1);
-                document.getElementById("resultContainer").remove(); //remove the results container
+            if (pass.length == 0) { //nothing to remove
+                console.log("No");
+            } else  if (pass.length == 1) { //check to see if user deleted the password 
+                deletePassword();
             } else {
-                pass = pass.slice(0, -1);
-                finalScore = PasswordSecurity(pass);
+                if (passDOM.selectionStart == 0 && passDOM.selectionEnd == pass.length) { //user deleted entire password
+                    deletePassword();
+                } else if (passDOM.selectionStart == passDOM.selectionEnd) { //only deleting one character
+                    if (passDOM.selectionEnd > 0) {
+                         pass = pass.slice(0, passDOM.selectionStart - 1) + pass.slice(passDOM.selectionStart);
+                        finalScore = PasswordSecurity(pass);
+                    }
+                } else { //deleting a selection
+                    result = pass.substring(passDOM.selectionStart, passDOM.selectionEnd);
+                    pass = pass.replace(result,"");
+                    finalScore = PasswordSecurity(pass);
+                }
             }
-        } else if (eKey.keyCode == 46 ) {  //Delete key was pressed  //TODO: determine the lcoation of the cursor and delete one before or after
-            console.log("delete key pressed");
+        } else if (eKey.keyCode == 46 ) {  //Delete key was pressed  
+            pass = pass.replace(pass[passDOM.selectionEnd +1], ""); //TODO: need to test this
         } else if (eKey.keyCode == 16 || eKey.keyCode == 17 || eKey.keyCode == 18 || eKey.keyCode == 27 || eKey.keyCode == 37 || eKey.keyCode == 38 || eKey.keyCode == 39 || eKey.keyCode == 40 || 
-            eKey.keyCode == 45 || eKey.keyCode == 144 || eKey.keyCode == 145 || eKey.key == "ctrlKey" || eKey.keyCode ==  91 || eKey.keyCode == 224 || eKey.keyCode == 55 || eKey.keyCode == 13) {
+            eKey.keyCode == 45 || eKey.keyCode == 144 || eKey.keyCode == 145 || eKey.key == "ctrlKey" || eKey.keyCode ==  91 || eKey.keyCode == 224  || eKey.keyCode == 13 || eKey.keyCode == 20) {
                 console.log("invalid key"); //block invalid keys
+        } else if (passDOM.selectionStart < pass.length && passDOM.selectionEnd == pass.length || passDOM.selectionEnd < pass.length) { //highlight and replace
+            result = pass.substring(passDOM.selectionStart, passDOM.selectionEnd);
+            pass = pass.replace(result,"");
+            pass = pass.slice(0, passDOM.selectionStart) + eKey.key + pass.slice(passDOM.selectionStart);
+            finalScore = PasswordSecurity(pass);
         } else { //user has entered a new character, add to the end of the string
-            pass += eKey.key
+            pass = pass.slice(0, passDOM.selectionStart) + eKey.key + pass.slice(passDOM.selectionStart);
             finalScore = PasswordSecurity(pass);
         }
 
@@ -60,12 +75,18 @@ function strengthInit(eKey) {
         }
 
         console.clear();
-        console.log("Password: " + pass + "// Length: " + pass.length  + "// Keycode = " + eKey.keyCode + "/" + eKey.key + " /" + finalScore[2]);
+        console.log("Password: " + pass + "// Length: " + pass.length  + "// Keycode = " + eKey.keyCode + "/" + eKey.key + " /" + finalScore[2] + " // " + passDOM.selectionStart + " | " + passDOM.selectionEnd);
         
 }
 
-function checkPasswordLength() {
-    return passDOM.value.length < 1 ?  0 : passDOM.value.length;
+function deletePassword() {
+
+    if (passDOM.selectionEnd > 0) { //in case the cusor is before the final character
+        finalScore = ["Very Weak", 0];
+        document.getElementById("password").style.borderColor = "#DA252E";
+        pass = "";
+        document.getElementById("resultContainer").remove(); //remove the results container
+    }
 }
 
 function updateResults(finalScore,results,labels,totals) {
@@ -105,7 +126,7 @@ function PasswordSecurity(pass)
     } else if (passLength > 8 && passLength <= 11) { // 9 - 11
         score += 10;
         countScore += 10;
-        lengthTip = "Strong, but try to add " + (12 - passLength) + " more characters";
+        lengthTip = "Ok, but try to add " + (12 - passLength) + " more characters";
     } else if (passLength > 4 && passLength <= 8) { //5 - 8
         score += 5;
         countScore += 5;
@@ -249,7 +270,6 @@ function PasswordSecurity(pass)
     //calculate possible combinations
     possibleCombinations = poolSize ** pass.length;
 
-
     //calculate password entropy to 2 decimal places
     entropy = Math.log2(possibleCombinations).toFixed(2);
 
@@ -271,11 +291,10 @@ function PasswordSecurity(pass)
         }
     }
 
+    //check against common passwords
+
     //TODO: check for repetition based on sequences. L33T checking, keyboard runs
     
-    //console.log(hasRepetition);
-
-
  
     //TODO: add an image based on the score
     //award a final score based on password entropy
@@ -283,20 +302,20 @@ function PasswordSecurity(pass)
         strength = "You are just mashing the keyboard, aren't you?"
         passDOM.style.borderLeftStyle = "black";
     } else if (entropy >= 130 && !hasRepetition) {
-        strength = "Practically Overkill";
+        strength = "Potentially Overkill";
         passDOM.style.borderColor = "black";
     } else if (entropy >= 110 && !hasRepetition) {
         strength = "Very Strong";
-        passDOM.style.borderColor = "black";
+        passDOM.style.borderColor = "#39e600";
     } else if (entropy >= 90 && !hasRepetition) {
         strength = "Strong" ;
-        passDOM.style.borderColor = "#009900" //green
+        passDOM.style.borderColor = "#00cccc" //green
     } else if (entropy >= 60) {
         strength = "Above Average"
-        passDOM.style.borderColor = "#0099ff"; //blue
+        passDOM.style.borderColor = "#aa00ff"; //blue
     } else if (entropy >= 45) {
         strength = "Average";
-        passDOM.style.borderColor = "#e6e600"; //yellow
+        passDOM.style.borderColor = "#0099ff"; //yellow
     } else if (entropy >= 35) {
         strength = "Weak";
         passDOM.style.borderColor = "#ffa64d"; //orange
@@ -319,6 +338,8 @@ function PasswordSecurity(pass)
     var output = [strength,score,entropy,lengthScore,lowerandUpperScore,noOfIntsScore,noOfSpecialCharsScore,mixtureScore,lengthTip,upperLowerTip,intTip,specialsTip,bonusTip,extra];   
     return output;
 }
+
+
 
 
 

@@ -3,9 +3,14 @@ html
     scroll-behavior: smooth;
 }
 
-body
+body 
 {
-    font-family: "Lucida Console", Monaco, monospace
+    font-family: "Arial", Arial,Helvetica Neue,Helvetica,sans-serif; 
+}
+
+ul 
+{
+    text-align: left;
 }
 
 h1 
@@ -13,9 +18,30 @@ h1
     font-size: 40px;
 }
 
+p
+{
+    margin-left: 60px;
+    margin-right: 60px;
+}
+
+a {
+    color: #DA252E;
+  }
+
 .content
 {
+    padding-left: 50px;
+    padding-right: 50px;
+}
+
+.centered
+{
     text-align: center;
+}
+
+.left 
+{
+    text-align: left;
 }
 
 #password, #password2
@@ -40,7 +66,7 @@ h1
 {
     background-color: white;
     width: 510px;
-    height:400px;
+    height:420px;
     border: 3px solid black;
     margin: auto;
     margin-top: 20px;
@@ -53,22 +79,6 @@ h1
 .resultItem
 {
     display:inline;
-}
-
-#options
-{
-    margin:auto;
-    width: 500px;
-    height:220px;
-    border-radius: 20px;
-    -webkit-transition: 0.5s;
-    transition: 0.5s;
-    border:4px solid #f9a7a7;
-}
-
-#options:focus
-{
-    border:4px solid #DA252E;
 }
 
 .footerTxt 
@@ -86,6 +96,45 @@ h1
     padding-bottom: 3px;
     border-top: 1px solid black;
 }
+
+#table {
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 85%;
+    height: 550px;
+    margin: 0 auto;
+  }
+
+  #table td
+  {
+      width: 25%;
+  }
+
+  
+  #table td, #table th {
+    border: 1px solid #ddd;
+    padding: 8px;
+  }
+  
+  #table tr:nth-child(even){background-color: #f2f2f2;}
+  
+  #table tr:hover {background-color: #ddd;}
+  
+  #table th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: center;
+    background-color: #DA252E;
+    color: white;
+  }
+
+  .icon
+  {
+      width: 60px;
+      height: 60px;
+      margin-left: 10px;
+      margin-bottom: -10px;
+  }
 
 
 @media screen and (max-width: 900px) {
@@ -106,15 +155,20 @@ h1
         width: 90%;
     }
 
-    #options
-    {
-        width: 400px;
-    }
-
     #resultContainer
     {
         width:400px;
-        height:410px;
+        height:420px;
+    }
+
+    p
+    {
+        margin-left: 0px;
+        margin-right: 0px;
+    }
+
+    #table {
+        width: 100%;
     }
 
 
@@ -139,17 +193,19 @@ h1
         width: 90%;
     }
 
-    #options
-    {
-        width: 280px;
-    }
-
     #resultContainer
     {
         width: 280px;
-        height: 340px;
+        height: 350px;
         font-size: 13px;
     }
+    #table {
+        width: 100%;
+    }
+
+    #table td, #table th {
+        font-size: 13px;
+      }
 
 }
 
