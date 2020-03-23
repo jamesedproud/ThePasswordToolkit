@@ -13,8 +13,6 @@ passDOM.addEventListener('keydown', function(e) {
 
 function strengthInit(eKey) {
 
-    //var html = ' <div id = "resultContainer"><p id = "strength"></p><p id = "rating"></p><hr><p id = "lengthScore"></p><p id = "lowerAndUpperScore"></p><p id = "noOfIntsScore"></p><p id = "noOfSpecialsScore"></p><p id = "mixtureScore"></p></div>';
-    var html =  '<div id = "resultContainer"><h3><u>Overall Results</u></h3><p id = "strength"></p><p id = "entropy"></p><p id = "rating" class = "resultItem"></p><span class = "tooltip">Info<span class = "tooltiptext" id= "ratingHint"></span></span><hr><div style = "margin-top: 10px;"><p id = "lengthScore" class = "resultItem"></p><span class = "tooltip">Hint<span class = "tooltiptext" id= "lengthTip"></span></span><br><br><p id = "lowerAndUpperScore" class = "resultItem"></p><span class = "tooltip">Hint<span class = "tooltiptext" id= "lowerUpperHint"></span></span><br><br><p id = "noOfIntsScore" class = "resultItem"></p><span class = "tooltip">Hint<span class = "tooltiptext" id= "intHint"></span></span><br><br><p id = "noOfSpecialsScore" class = "resultItem"></p><span class = "tooltip">Hint<span class = "tooltiptext" id= "specialHint"></span></span><br><br><p id = "mixtureScore" class = "resultItem"></p><span class = "tooltip">Hint<span class = "tooltiptext" id= "bonusHint"></span></span><hr><h3>Dictionary Attacks</h3><p id = "bonus" class = "bonus"></p></div></div>';
     var result;
 
      //TODO: if the user copy and pastes a password.
@@ -55,28 +53,37 @@ function strengthInit(eKey) {
         }
 
         if (pass.length >= 1) {
-            //insert the results containers
-            if (!document.body.contains(document.getElementById("resultContainer")))
-                passDOM.insertAdjacentHTML('afterend',html);
-
-            var results = ["strength","rating","entropy","lengthScore","lowerAndUpperScore","noOfIntsScore","noOfSpecialsScore","mixtureScore"];
-            var labels = ["Password Strength: ", "Rating: ", "Entropy: ", "Length: ", "Lower/Upper Case: ", "Numbers: ","Symbols: ","Variety: "];
-            var totals = ["", " / 100", "", " / 25", " / 25", " / 20", " / 25", " / 5"];
-
-            //populate the results container
-            byId("rating").style.fontWeight = "bold";
-            updateResults(finalScore,results,labels,totals);
-            byId("bonus").textContent = finalScore[13];
-
-            //populate the tooltips
-            var tips = ["lengthTip", "lowerUpperHint", "intHint", "specialHint", "bonusHint"];
-            updateTips(finalScore,tips);
-            document.getElementById("ratingHint").textContent = "This score is only to encourage entropy";
+            updateUI(finalScore);
         }
 
-        console.clear();
-        console.log("Password: " + pass + "// Length: " + pass.length  + "// Keycode = " + eKey.keyCode + "/" + eKey.key + " /" + finalScore[2] + " // " + passDOM.selectionStart + " | " + passDOM.selectionEnd);
+       // console.clear();
+        //console.log("Password: " + pass + "// Length: " + pass.length  + "// Keycode = " + eKey.keyCode + "/" + eKey.key + " /" + finalScore[2] + " // " + passDOM.selectionStart + " | " + passDOM.selectionEnd);
         
+}
+
+function updateUI(finalScore) {
+
+    var html =  '<div id = "resultContainer"><h3><u>Overall Results</u></h3><p id = "strength"></p><p id = "entropy"></p><p id = "crackTime" class = "resultItem"></p><span class = "tooltip">Info<span class = "tooltiptext" id= "crackTimeHint"></span></span><br><br><p id = "rating" class = "resultItem"></p><span class = "tooltip">Info<span class = "tooltiptext" id= "ratingHint"></span></span><hr><div style = "margin-top: 10px;"><p id = "lengthScore" class = "resultItem"></p><span class = "tooltip">Hint<span class = "tooltiptext" id= "lengthTip"></span></span><br><br><p id = "lowerAndUpperScore" class = "resultItem"></p><span class = "tooltip">Hint<span class = "tooltiptext" id= "lowerUpperHint"></span></span><br><br><p id = "noOfIntsScore" class = "resultItem"></p><span class = "tooltip">Hint<span class = "tooltiptext" id= "intHint"></span></span><br><br><p id = "noOfSpecialsScore" class = "resultItem"></p><span class = "tooltip">Hint<span class = "tooltiptext" id= "specialHint"></span></span><br><br><p id = "mixtureScore" class = "resultItem"></p><span class = "tooltip">Hint<span class = "tooltiptext" id= "bonusHint"></span></span><hr><h3>Dictionary Attacks</h3><p id = "bonus" class = "bonus"></p></div></div>';
+
+    if (!document.body.contains(document.getElementById("resultContainer")))
+    passDOM.insertAdjacentHTML('afterend',html);
+
+    var results = ["strength","rating","entropy","crackTime","lengthScore","lowerAndUpperScore","noOfIntsScore","noOfSpecialsScore","mixtureScore"];
+    var labels = ["Password Strength: ", "Rating: ", "Entropy: ", "Max time to hack: " , "Length: ", "Lower/Upper Case: ", "Numbers: ","Symbols: ","Variety: "];
+    var totals = ["", " / 100", "","", " / 25", " / 25", " / 20", " / 25", " / 5"];
+
+    //populate the results container
+    byId("rating").style.fontWeight = "bold";
+    byId("strength").style.fontWeight = "bold";
+    updateResults(finalScore,results,labels,totals);
+    byId("bonus").textContent = finalScore[14];
+
+    //populate the tooltips
+    var tips = ["lengthTip", "lowerUpperHint", "intHint", "specialHint", "bonusHint"];
+    updateTips(finalScore,tips);
+    byId("ratingHint").textContent = "This score is only to encourage entropy";
+    byId("crackTimeHint").textContent = "Assuming 100 billion guesses a second";
+
 }
 
 function deletePassword() {
@@ -84,6 +91,7 @@ function deletePassword() {
     if (passDOM.selectionEnd > 0) { //in case the cusor is before the final character
         finalScore = ["Very Weak", 0];
         document.getElementById("password").style.borderColor = "#DA252E";
+        passDOM.style.backgroundImage = "url('./images/red.png')";
         pass = "";
         document.getElementById("resultContainer").remove(); //remove the results container
     }
@@ -98,7 +106,7 @@ function updateResults(finalScore,results,labels,totals) {
 
 function updateTips(finalScore,tips) {
 
-    let j = 8;
+    let j = 9;
     for (let i = 0; i < tips.length; i++) {
         byId(tips[i]).textContent = finalScore[j];
         j++;
@@ -112,7 +120,7 @@ function PasswordSecurity(pass)
     var numUpper, numLower, numInts, numCharacters, numLetters,strength,lengthScore,lowerAndUpperScore,noOfIntsScore,noOfSpecialCharsScore,mixtureScore;
     var countScore = 0, score = 0;
     var lengthTip, upperLowerTip, intTip, specialsTip, bonusTip;
-    var possibleCombinations, entropy, poolSize = 0;
+    var possibleCombinations, entropy, poolSize = 0, crackTime;
     var hasRepetition = false;
 
     if (!pass) //return 0 if no password is entered
@@ -273,6 +281,9 @@ function PasswordSecurity(pass)
     //calculate password entropy to 2 decimal places
     entropy = Math.log2(possibleCombinations).toFixed(2);
 
+    crackTime = (2**entropy) / 100000000000; //TODO: change this to be more accurate
+    var time = convertTime(crackTime);
+
     //check for sequencial repetition
    var count = 1;
    var result = pass.charAt(0);
@@ -302,29 +313,37 @@ function PasswordSecurity(pass)
         strength = "You are just mashing the keyboard, aren't you?"
         passDOM.style.borderLeftStyle = "black";
     } else if (entropy >= 130 && !hasRepetition) {
-        strength = "Potentially Overkill";
+        strength = "Godlike";
         passDOM.style.borderColor = "black";
+        passDOM.style.backgroundImage = "url('./images/shield.png')";
     } else if (entropy >= 110 && !hasRepetition) {
         strength = "Very Strong";
         passDOM.style.borderColor = "#39e600";
+        passDOM.style.backgroundImage = "url('./images/green.png')";
     } else if (entropy >= 90 && !hasRepetition) {
         strength = "Strong" ;
         passDOM.style.borderColor = "#00cccc" //green
+        passDOM.style.backgroundImage = "url('./images/green.png')";
     } else if (entropy >= 60) {
         strength = "Above Average"
         passDOM.style.borderColor = "#aa00ff"; //blue
+        passDOM.style.backgroundImage = "url('./images/blue.png')";
     } else if (entropy >= 45) {
         strength = "Average";
         passDOM.style.borderColor = "#0099ff"; //yellow
+        passDOM.style.backgroundImage = "url('./images/blue.png')";
     } else if (entropy >= 35) {
         strength = "Weak";
         passDOM.style.borderColor = "#ffa64d"; //orange
+        passDOM.style.backgroundImage = "url('./images/yellow.png')";
     } else if (entropy >= 0) {
         strength = "Very Weak";
         passDOM.style.borderColor = "#DA252E"; //red
+        passDOM.style.backgroundImage = "url('./images/red.png')";
     } else { //contains repetition
         strength = "Average";
         passDOM.style.borderColor = "#e6e600"; //yellow
+        passDOM.style.backgroundImage = "url('./images/blue.png')";
     }
 
     var extra;
@@ -335,7 +354,65 @@ function PasswordSecurity(pass)
         extra = "Repetition: Nothing unusual";
 
 
-    var output = [strength,score,entropy,lengthScore,lowerandUpperScore,noOfIntsScore,noOfSpecialCharsScore,mixtureScore,lengthTip,upperLowerTip,intTip,specialsTip,bonusTip,extra];   
+    var output = [strength,score,entropy,time,lengthScore,lowerandUpperScore,noOfIntsScore,noOfSpecialCharsScore,mixtureScore,lengthTip,upperLowerTip,intTip,specialsTip,bonusTip,extra];   
+    return output;
+}
+
+function convertTime(time) 
+{
+        var seconds = time; //the current time to crack in seconds
+        var secmin = 60, day = 24, week = 7; year = 12,months = 4.348214; decade = 10, century = 10, thousand = 10;//TODO: dont need this
+        var output;
+
+        var minutes = seconds / secmin, hours = minutes / secmin, days = hours / day, weeks = days / week, months = weeks / months, years = months / year, decades = years / decade, centurys = decades / century,thousands = centurys / thousand;  //TODO: dont need this
+
+        var periods = [];
+        var temp2 = thousands;
+        periods.push(temp2); //push the initial thousand
+
+        for (var i = 0; i < 21; i++) { //after 1 million next value always found by dividing original by 1000
+            temp2 = temp2 / 1000;
+            periods.push(temp2);
+        }
+
+        var illionLabels = ["million", "billion", "trillion", "quadrillion", "quintillion", "sextillion", "septillion", "octillion", "nonillion",
+                      "decillion", "undecillion", "duodecillion", "tredecillion", "quattuordecillion", "quindecillion", "sexdecillion", "septendecillion", 
+                      "octodecillion", "novemdecillion", "vigintillion", "centillion"];
+
+
+        if (seconds < 1) {
+            output = "less than a second";
+        } else if (seconds >= 1 && seconds < 60) {
+            output = seconds.toFixed(1) + " seconds";
+        } else if (seconds >= 60 && minutes < 60)  {
+            output =  minutes.toFixed(2) +" minutes";
+        } else if (minutes >= 60 && hours < 24) {
+            output = hours.toFixed(1) + " hours";
+        } else if (hours >= 24 && days < 7) {
+            output = days.toFixed(1) + " days";
+        } else if (days >= 7 && weeks < 4.348214) {
+            output = weeks.toFixed(1) + " weeks";
+        } else if (weeks >=4.348214 && months < 12) {
+            output = months.toFixed(1) + " months";
+        } else if (months >= 12 && years < 100) {
+            output = years.toFixed(1) + " years";
+        } else if (years >= 10 && years < 1000) {
+            output = centurys.toFixed(1) + " hundred years";
+        } else if (centurys >= 10 && thousands < 1000) {
+            output = thousands.toFixed(1) + " thousand years";
+        } else {
+
+            for (var i = 0; i < periods.length - 1; i++) { 
+                if (periods[i] >= 1000 && periods[i + 1] < 1000) {
+                    output = periods[i + 1].toFixed(1) + ` ${illionLabels[i]} years`;
+                    break;
+                } else {
+                    output = "forever";
+                }
+            }
+        } 
+        //console.log(minutes + " minutes // " + hours + " hours // " + weeks + " weeks // " + months + " months // " + years + " years // " + centurys  +  " hundred years //" + thousands + " thousands // " + millions + " millions");
+
     return output;
 }
 

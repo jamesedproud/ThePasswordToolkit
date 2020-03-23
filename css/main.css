@@ -5,7 +5,7 @@ html
 
 body 
 {
-    font-family: "Arial", Arial,Helvetica Neue,Helvetica,sans-serif; 
+    font-family: Verdana, Geneva, sans-serif;
 }
 
 ul 
@@ -44,6 +44,18 @@ a {
     text-align: left;
 }
 
+#password 
+{
+    background-color: white;
+    background-image: url('../images/red.png');
+    background-position: 0px 0px;
+    background-repeat: no-repeat;
+    background-size: contain;
+    -webkit-transition: 0.5s;
+    transition: 1.0s;
+   
+}
+
 #password, #password2
 {
     width: 50%;
@@ -66,7 +78,7 @@ a {
 {
     background-color: white;
     width: 510px;
-    height:420px;
+    height:430px;
     border: 3px solid black;
     margin: auto;
     margin-top: 20px;
@@ -132,8 +144,14 @@ a {
   {
       width: 60px;
       height: 60px;
-      margin-left: 10px;
+      margin-right: -60px;
       margin-bottom: -10px;
+  }
+
+  #tipImage
+  {
+      width: 60%;
+      height: auto;
   }
 
 
@@ -158,7 +176,7 @@ a {
     #resultContainer
     {
         width:400px;
-        height:420px;
+        height:430px;
     }
 
     p
@@ -171,6 +189,10 @@ a {
         width: 100%;
     }
 
+    #tipImage
+    {
+      width: 90%;
+    }
 
 }
 
@@ -196,7 +218,7 @@ a {
     #resultContainer
     {
         width: 280px;
-        height: 350px;
+        height: 360px;
         font-size: 13px;
     }
     #table {
@@ -206,6 +228,11 @@ a {
     #table td, #table th {
         font-size: 13px;
       }
+
+    #tipImage
+    {
+      width: 100%;
+    }
 
 }
 

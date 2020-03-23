@@ -44,7 +44,8 @@
             <br>
             
             <section id = "strengthSection" class = "centered">
-                <h2><u>Password Security Check</u></h2>
+                <h2 style = "display: inline-block;"><u>Password Security Check</u></h2>
+                <img src = "images/shield.png" class = "icon">
                 <p>Enter your password in the box below to see how secure it is.</p>
                 <input type="password" id="password" placeholder="Enter Password"><br><br>
 
@@ -53,6 +54,10 @@
                     <h3> Results </h3>
                     <p id = "strength"></p>
                     <p id = "entropy"></p>
+                    <p id = "crackTime" class = "resultItem"></p>
+                    <span class = "tooltip">Info
+                        <span class = "tooltiptext" id= "crackTimeHint"></span>
+                    </span>
                     <p id = "rating" class = "resultItem"></p>
                     <span class = "tooltip">Info
                         <span class = "tooltiptext" id= "ratingHint"></span>
@@ -94,6 +99,7 @@
                     of your password is based on its entropy.<br> <br>
                     Note that password meters are not perfect and can sometimes promote degradation of password strength due to not encouraging randomness.
                     For example, if a hacker knows the strength rules for a password meter, it becomes much easier for them to crack your password.
+                    No password meter can truly take into account human behaviour and how passwords are created so please take these results with a grain of salt.
                     Please see the <a href="#passwordEntropy">Password Entropy</a> section for more information.
                     <br><br>
                     See the <a href = "#tips">Tips</a> section for more information on how to increase your password security. <br> <br>
@@ -112,7 +118,7 @@
                                     <option value="8">Weak (8)</option>
                                     <option value="12">Medium (12)</option>
                                     <option value="16">Strong (16)</option>
-                                    <option value="24">Overkill (24)</option>
+                                    <option value="24">Godlike (24)</option>
                                     <option value="100">Paranoid (100)</option>
                                 </select>
                          </div>
@@ -165,17 +171,19 @@
 
             <br> <br>
 
-
+        <!--
             <section id = "encryptor" class = "centered">
                 <h2><u>Password Encryptor</u></h2>
                 <input type="text" id="password2" placeholder="Enter Password"><br><br>
                 <p id = "hashedPassword"></p>
             </section>
+        -->
 
             <br> <br>
 
             <section id = "tips" class = "centered">
-                <h2><u>Password Tips</u></h2>
+                <h2 style = "display: inline-block;"><u>Password Tips</u></h2>
+                <img src = "images/lamp.png" class = "icon">
                 <br>
                 <h3>Password Basics</h3>
                 <p class = "left">
@@ -187,15 +195,16 @@
                 <br>
                 
                 <h3 id = "passwordEntropy">Password Entropy</h3>
-                <p class = "left">Password entropy is the amount of randomness in a password. It can be used to determine roughly how long it would take for a password to be cracked using brute-force methods.
+                <p class = "left">Password entropy relates to the <i>selection process</i> of a password. It esssentially measures what a password <i>could</i> be. It can be used to determine roughly how long it would take for a password to be cracked using brute-force methods.
                     Entropy is calculated in bits, for example, a password with 50 bits of entropy is as strong as a string of 50 randomly
-                    chosen bits. The base-2 logarithm of that number is used to calculate the possible number of attempts to crack a password
+                    chosen bits (e.g. each bit chosen using a coin toss). The base-2 logarithm of that number is used to calculate the possible number of attempts to crack a password
                     during a brute-force attack. E.g. 50 bits entropy (2^50) = 1,125,899,906,842,624 possible attempts. <br><br> On average, a hacker will only require half of the possible attempts before cracking
-                    the password. Take for example, a password of 4 characters with only lower case letters. There are 456,976 possible combinations that the 
-                    password could be (26 possible characters so 26^4) with an entropy of <span class = "tooltip"  style = "margin-left:0;">18.80<span class = "tooltiptext">2^18.80 = 456,976</span></span> (log2(26^4)).<br><br> By increasing the password by just one letter, the possible combinations jumps to 11,881,376. From this, we can see that by just increasing the entropy of a password by 1 bit, the possible attempts significantly increases.
-                    By understanding this, it becomes clear that the single most important factor when creating a strong password is length. <br><br>
-                    Don't be fooled by the size of these numbers though, as computing power increases the number of passwords that can be guessed per second also increases.
-                    With the correct equipment, a hacker can test billions of passwords per second. This is why maximizing the character pool is also important (numbers, symbols, upper/lower case). <br><br>
+                    the password. Another way to calculate the possible combinations is to use the pool size. Take for example, a password of 4 characters with only lower case letters. The pool size would be 26
+                    as only lower case letters are being used. So (26 ^ 4) means there are 456,976 possible combinations with an entropy of <span class = "tooltip"  style = "margin-left:0;">18.80<span class = "tooltiptext">2^18.80 = 456,976</span></span> (log2(26^4)).<br><br> By increasing the password by just one letter, the possible combinations jumps to 11,881,376. From this, we can see that by just increasing the entropy of a password by 1 bit, the possible attempts significantly increases.
+                    By understanding this, it becomes clear that <strong>the single most important factor when creating a strong password is length</strong> not complexity. So yes, size matters. <br><br>
+                    Don't be fooled by the size of these numbers though, as compuational power increases the number of passwords that can be guessed per second also increases.
+                    Take our earlier examples, a 4 character password with 18.80 bits of entropy at 1 million
+                    guesses per second would take 0.46 seconds for the password to be cracked if all guesses were exhausted. The second password with 5 characers and 23.50 bits of entropy would take 11 seconds to be cracked. With the correct equipment, a hacker can potentially test billions or even trillions of passwords per second. So how secure if your password really? This is why maximizing the character pool is also important (numbers, symbols, upper/lower case). <br><br>
                     People are notoriously bad at creating passwords, with the average password entropy being 40.54 bits.<br> <a href="#strengthSection">Test your password</a> and see how your password compares.
                 </p>
 
@@ -245,15 +254,15 @@
                     </tr>
                     <tr>
                         <td>130+ bits </td>
-                        <td>Overkill</td>
-                        <td>Suitable for paranoid security freaks</td>
+                        <td>Godlike</td>
+                        <td>Potentially overkill. Suitable for paranoid security freaks</td>
                       </tr>
                   </table>
 
                   <br>
 
                 <h3>Dictionary Attacks</h3>
-                <p class = "left"></p>When creating a password, it is important to consider its resistance to dictionary attacks. Unlike brute-force attacks (guessing),
+                <p class = "left"></p>It is almost never the case that a hacker will opt for a brute-force attack unless it is a last resort. Unlike brute-force attacks (guessing),
                     dictionary attacks are far more succesful. The reason being that humans typically are not good at creating passwords. Dictionary 
                     attacks are a type of precision brute-force attack where passwords are compared against a list of common words, phrases or patterns.<br><br>
                     The best defence against dictionary attacks is to create complex passwords. As dictionary attacks are usually the first line of 
@@ -264,7 +273,6 @@
 
               
                 <h3 style = "display: inline-block;">Tips to increase the security of your password</h3>
-                <img src = "images/lamp.png" class = "icon">
                 
                 <p>
                     Below is a non-extensive list of methods to increase password security:
@@ -276,7 +284,7 @@
                     of a commonly used pattern is a word, with the first letter being upper case, followed by a number (e.g London2015).</li>
                     <br>
                     <li><b>Avoid Common Passwords: </b>Do not use passwords that include pet names, postcodes, birthdays, phone numbers and so on. Any
-                    words that can be found in a dictionary should also be avoided. Using foreign words can increase the security.</li>
+                    words that can be found in a dictionary should also be avoided. Using words foreign to your own language can also increase the security.</li>
                     <br>
                     <li><b>Regularly change passwords: </b> Passwords should be changed on a regular basis (not to an old password).</li>
                     <br>
@@ -291,6 +299,7 @@
                     <li><b>Bonus - use a password manager: </b>Remembering multiple passwords can be difficult. Using a password manager
                     can be useful when using multiple passwords.</li>
                 </ul>
+                <br>
             </section>
                 <br>
 

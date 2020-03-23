@@ -2,7 +2,7 @@
     position: relative;
     display: inline;
     border-bottom: 1px dotted black;
-    margin-left: 20px;
+    margin-left: -35px;
   }
   
   .tooltip .tooltiptext {
@@ -37,4 +37,13 @@
   .tooltip:hover .tooltiptext {
     visibility: visible;
     opacity: 1;
+  }
+
+  @media screen and (max-width: 900px) {
+
+    .tooltip {
+      margin-left: 10px;
+    }
+
+
   }
