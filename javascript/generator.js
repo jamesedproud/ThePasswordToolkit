@@ -1,5 +1,5 @@
 var resultDOM = document.getElementById("generated");
-var selectedLength = document.getElementById("length");
+var selectedLength = document.getElementById("slideroutput");
 var lowerCaseDOM = document.getElementById("lowercase");
 var upperCaseDOM = document.getElementById("uppercase");
 var numbersDOM = document.getElementById("numbers");
@@ -9,14 +9,14 @@ var length;
 
 document.getElementById("generateButton").addEventListener('click', function(e) {
     
-    length = selectedLength.options[selectedLength.selectedIndex].value;
+    length = selectedLength.innerText;
     result = generatePassword(length);
     resultDOM.value = result;
 
 });
 
 function generatePassword(length) {
-    var lower = "abcdefghijklmnopqrstuvwxyz", upper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ", ints = "0123456789", symbols = "@#$%^&*()_+-=[]{};':\"|,.<>\/?£!~`§±"
+    var lower = "abcdefghijklmnopqrstuvwxyz", upper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ", ints = "0123456789", symbols = "@#$%^&*()_+-=[]{};':\"|,.<>\/?£!~"
         retVal = "";
 
     var charset = "";
@@ -35,7 +35,7 @@ function generatePassword(length) {
     }
 
     if (charset == "") {
-        retVal = "Please choose something";
+        retVal = "No character pool";
     } else {
         for (var i = 0, n = charset.length; i < length; ++i) {
             retVal += charset.charAt(Math.floor(Math.random() * n));

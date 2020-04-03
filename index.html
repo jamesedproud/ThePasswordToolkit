@@ -3,6 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="keywords" content="JavaScript, Passwords,Password, Security, Cybersecurity, How secure is my password?, generator, password generator, online password generator, secure password generator,
+    password entropy,entropy,hacking,cracking">
+    <meta name="description" content="Learn about what makes a password secure">
+    <meta name="author" content="James Proud">
+
+
     <title>The Password Toolkit</title>
 
     <!--Original Style Sheets-->
@@ -10,9 +16,11 @@
     <link rel ="stylesheet" href = "css/sidebar.css">
     <link rel="stylesheet" href="css/tooltip.css">
     <link rel="stylesheet" href="css/generator.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/slider.css">
 
     <!--External Style Sheets-->
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 </head>
 <body>
@@ -39,14 +47,14 @@
 
         <div class="content">
 
-            <h1 class = "centered" style = "color:#DA252E"><u>The Password Toolkit</u></h1>
+            <h1 style = "color:#DA252E;text-align:center"><u>The Password Toolkit</u></h1>
 
             <br>
             
             <section id = "strengthSection" class = "centered">
-                <h2 style = "display: inline-block;"><u>Password Security Check</u></h2>
-                <img src = "images/shield.png" class = "icon">
-                <p>Enter your password in the box below to see how secure it is.</p>
+                <h2 style = "display: inline-block;"><u>How secure is your password?</u></h2>
+                <img src = "images/shield.png" class = "contentIcon" id = "shield">
+                <p class = "otherText">Enter your password in the box below to see how secure it is.</p>
                 <input type="password" id="password" placeholder="Enter Password"><br><br>
 
                 <!--
@@ -92,7 +100,7 @@
             -->
                 
 
-                <p class = "centered">Points are awarded depending on the uniqueness of your password.</p>
+                <p class = "centered otherText" >Points are awarded depending on the uniqueness of your password.</p>
                 <p class = "left">The categories that your password are checked
                     against include password length, number of upper and lower case letters, how many numbers there are, how many special
                     characters have been used as well as what combination of the forementioned have been combined. Ultimately, the strength 
@@ -107,12 +115,19 @@
             </section>
 
             <section id = "generator">
-                <h2 class = "centered"><u>Password Generator</u></h2>
-                <div id = "generatorContainer">
-                    <p class = "centered">Please select from the options below.</p>
-
+                <div class = "centered" >
+                    <h2 style = "display: inline-block;"><u>Password Generator</u></h2>
+                    <img src = "images/bot.png" class = "contentIcon">
+                </div>
+                <p class = "centered otherText">First customize your password. You can generate as many passwords as you like.</p>
+                <div id = "generatorContainer" style = "padding-top:10px;">
                         <div class = "centered" id = "custom-select">
-                                <label for="length">Length: </label>
+                                <p id = "sliderLbl" style = "display: inline-block;">Length: </p>
+                                <p id = "slideroutput" style = "display: inline;"></p>
+                                <div class="slidecontainer">
+                                    <input type="range" min="1" max="100" value="16" class="slider" id="myRange">
+                                  </div>
+                                <!--
                                 <select id="length" name="length">
                                     <option value="4">Very Weak (4)</option>
                                     <option value="8">Weak (8)</option>
@@ -121,12 +136,13 @@
                                     <option value="24">Godlike (24)</option>
                                     <option value="100">Paranoid (100)</option>
                                 </select>
+                            -->
                          </div>
                         <br>
                         
                         <div>
                             <label class="checkBox">Lower Case
-                                <input type="checkbox" id = "lowercase">
+                                <input type="checkbox" id = "lowercase" checked=checked>
                                 <span class="checkmark"></span>
                             </label>
                             
@@ -150,21 +166,8 @@
                             <button id="generateButton"><span>Generate </span></button>
                             <br><br>
                             <input type="text" id="generated" readonly>
-                        </div>
-
-                        <!--
-                        <input type="checkbox" id="lowercase" name="lowercase" value="Bike" class = "checkBox" checked = "checked">
-                        <label for="lowercase">Lower Case</label><br>
-                        <input type="checkbox" id="uppercase" name="uppercase" value="Bike" class = "checkBox">
-                        <label for="uppercase">Upper Case</label><br>
-                        <input type="checkbox" id="numbers" name="numbers" value="Car" >
-                        <label for="numbers">Numbers</label><br>
-                        <input type="checkbox" id="symbols" name="symbols" value="Boat">
-                        <label for="symbols">Symbols</label><br><br>
-                        <button id = "generateButton">Generate</button>
-                        <br><br>
-                        -->
-                        
+                            <button id = "copyButton" onclick="copyText()">Copy</button>
+                        </div>                 
                     
                 </div>
             </section>
@@ -183,9 +186,8 @@
 
             <section id = "tips" class = "centered">
                 <h2 style = "display: inline-block;"><u>Password Tips</u></h2>
-                <img src = "images/lamp.png" class = "icon">
+                <img src = "images/lamp.png" class = "contentIcon">
                 <br>
-                <h3>Password Basics</h3>
                 <p class = "left">
                     A password is typically the <span class = "tooltip" style="margin-left: 0px;">least secure form of authentication
                         <span class = "tooltiptext">Multi-factor authentication is undisputably the strongest approach to account security</span>
@@ -194,7 +196,8 @@
                 </p>
                 <br>
                 
-                <h3 id = "passwordEntropy">Password Entropy</h3>
+                <h3 id = "passwordEntropy" style = "display: inline-block;">Password Entropy</h3>
+                <img src = "images/coin.png" class = "contentIcon">
                 <p class = "left">Password entropy relates to the <i>selection process</i> of a password. It esssentially measures what a password <i>could</i> be. It can be used to determine roughly how long it would take for a password to be cracked using brute-force methods.
                     Entropy is calculated in bits, for example, a password with 50 bits of entropy is as strong as a string of 50 randomly
                     chosen bits (e.g. each bit chosen using a coin toss). The base-2 logarithm of that number is used to calculate the possible number of attempts to crack a password
@@ -209,8 +212,10 @@
                 </p>
 
                 <br>
-                <h3 id = "how">How strong should my passwords be?</h3>
-                <p class = "left">Passwords should always be as strong as practically possible. So how much entropy is enough? Well, how long is a piece of string? The bits of entropy required for a password depends on the threat model of the system of which the password is being created for.
+                <h3 id = "how" style = "display: inline-block;">How strong should my passwords be?</h3>
+                <img src = "images/man.png" class = "contentIcon">
+                <p class = "left">Passwords should always be as strong as <i>practically possible</i>. So how much entropy is enough? Well, how long is a piece of string? 
+                   The bits of entropy required for a password depends on the threat model of the system of which the password is being created for.
                    There's not much practical use having a 20 character password for your desktop login. However, a 20 character password for say, your online banking
                    doesn't sound like such a bad idea.<br><br>
                    As computational power increases, so will the required bits of entropy. The Password Toolkit uses the following chart to measure password 
@@ -261,8 +266,9 @@
 
                   <br>
 
-                <h3>Dictionary Attacks</h3>
-                <p class = "left"></p>It is almost never the case that a hacker will opt for a brute-force attack unless it is a last resort. Unlike brute-force attacks (guessing),
+                <h3 style = "display: inline-block;">Dictionary Attacks</h3>
+                <img src = "images/hacker.png" class = "contentIcon">
+                <p class = "left">It is almost never the case that a hacker will opt for a brute-force attack unless it is a last resort. Unlike brute-force attacks (guessing),
                     dictionary attacks are far more succesful. The reason being that humans typically are not good at creating passwords. Dictionary 
                     attacks are a type of precision brute-force attack where passwords are compared against a list of common words, phrases or patterns.<br><br>
                     The best defence against dictionary attacks is to create complex passwords. As dictionary attacks are usually the first line of 
@@ -273,8 +279,9 @@
 
               
                 <h3 style = "display: inline-block;">Tips to increase the security of your password</h3>
+                <img src = "images/password.png" class = "contentIcon">
                 
-                <p>
+                <p class = "otherText">
                     Below is a non-extensive list of methods to increase password security:
                 </p>
                 <ul class = "left">
@@ -307,7 +314,7 @@
 
             <section id = "contact" class = "centered">
                 <div id = "footer">
-                        <h2><u>Contact</u></h2>
+                        <h3><u>Contact</u></h2>
                         <p>If you find any bugs or want to contact me please send an email to jamesproud@live.co.uk</p>
                     <p class = "footerTxt"><b>Note: </b>
                         The Password Toolkit is an experimental tool developed for educational purposes only.
@@ -324,15 +331,47 @@
 
 <!---------------------------------END----------------------------------------->
 <script>
+
     /* Toggle between adding and removing the "responsive" class to topnav when the user clicks on the icon */
     function myFunction() {
         var x = document.getElementById("myTopnav");
         if (x.className === "sidebar") {
             x.className += " responsive";
+            //x.style.height = "auto";
         } else {
             x.className = "sidebar";
+            //x.style.height = "73px";
         }
-    } 
+    }
+    
+    
+    var slider = document.getElementById("myRange");
+    var output = document.getElementById("slideroutput");
+    output.innerHTML = slider.value; // Display the default slider value
+
+    // Update the current slider value (each time you drag the slider handle)
+    slider.oninput = function() {
+    output.innerHTML = this.value;
+    }
+    
+    function copyText() {
+
+        /* Get the text field */
+        var copyText = document.getElementById("generated");
+        var button = document.getElementById("copyButton");
+
+        //button.style.animation = "spring 1s";
+
+
+        /* Select the text field */
+        copyText.select();
+        copyText.setSelectionRange(0, 99999); /*For mobile devices*/
+
+        /* Copy the text inside the text field */
+        document.execCommand("copy");
+
+    }
+
 
 </script>
 

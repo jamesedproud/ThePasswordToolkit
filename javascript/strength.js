@@ -1,21 +1,25 @@
 var pass = "";
 var contentDOM = document.getElementsByClassName("content");
 var passDOM = document.getElementById("password");
+var shield = document.getElementById("shield");
 var finalScore;
 var byId = document.getElementById.bind(document);
-
+var before;
 
 //CHECK THE STRENGTH OF THE USER'S PASSWORD////////////////////////////////////
 passDOM.addEventListener('keydown', function(e) {
-    strengthInit(e);
+         if (e.metaKey == false && e.key != "v" || e.ctrlKey == false && e.key != "v") //prevents 'v' from being appended if user presses ctrl v
+            strengthInit(e);
 });
 
+passDOM.addEventListener('paste', function(e) {
+    var pasted = e.clipboardData.getData('Text');
+    appendPasted(pasted);
+});
 
 function strengthInit(eKey) {
 
     var result;
-
-     //TODO: if the user copy and pastes a password.
 
         //if the backspace is pressed trim a character
         if (eKey.keyCode == 8) {
@@ -40,7 +44,7 @@ function strengthInit(eKey) {
         } else if (eKey.keyCode == 46 ) {  //Delete key was pressed  
             pass = pass.replace(pass[passDOM.selectionEnd +1], ""); //TODO: need to test this
         } else if (eKey.keyCode == 16 || eKey.keyCode == 17 || eKey.keyCode == 18 || eKey.keyCode == 27 || eKey.keyCode == 37 || eKey.keyCode == 38 || eKey.keyCode == 39 || eKey.keyCode == 40 || 
-            eKey.keyCode == 45 || eKey.keyCode == 144 || eKey.keyCode == 145 || eKey.key == "ctrlKey" || eKey.keyCode ==  91 || eKey.keyCode == 224  || eKey.keyCode == 13 || eKey.keyCode == 20) {
+            eKey.keyCode == 45 || eKey.keyCode == 144 || eKey.keyCode == 145 || eKey.keyCode ==  91 || eKey.keyCode == 224  || eKey.keyCode == 13 || eKey.keyCode == 20 || eKey.keyCode == 9) {
                 console.log("invalid key"); //block invalid keys
         } else if (passDOM.selectionStart < pass.length && passDOM.selectionEnd == pass.length || passDOM.selectionEnd < pass.length) { //highlight and replace
             result = pass.substring(passDOM.selectionStart, passDOM.selectionEnd);
@@ -56,9 +60,17 @@ function strengthInit(eKey) {
             updateUI(finalScore);
         }
 
-       // console.clear();
-        //console.log("Password: " + pass + "// Length: " + pass.length  + "// Keycode = " + eKey.keyCode + "/" + eKey.key + " /" + finalScore[2] + " // " + passDOM.selectionStart + " | " + passDOM.selectionEnd);
+     console.clear();
+     console.log("Password: " + pass + "// Length: " + pass.length  + "// Keycode = " + eKey.keyCode + "/" + eKey.key + " /" + finalScore[2] + " // " + passDOM.selectionStart + " | " + passDOM.selectionEnd);
         
+}
+
+function appendPasted(pasted) {
+    pass = pass.slice(0, passDOM.selectionStart) + pasted + pass.slice(passDOM.selectionStart);
+    finalScore = PasswordSecurity(pass);
+    updateUI(finalScore);
+    console.clear();
+    console.log("Password: " + pass + "// Length: " + pass.length);  
 }
 
 function updateUI(finalScore) {
@@ -91,7 +103,7 @@ function deletePassword() {
     if (passDOM.selectionEnd > 0) { //in case the cusor is before the final character
         finalScore = ["Very Weak", 0];
         document.getElementById("password").style.borderColor = "#DA252E";
-        passDOM.style.backgroundImage = "url('./images/red.png')";
+        shield.src = "./images/red.png";
         pass = "";
         document.getElementById("resultContainer").remove(); //remove the results container
     }
@@ -113,8 +125,8 @@ function updateTips(finalScore,tips) {
     }
 }
 
-function PasswordSecurity(pass)
-{
+function PasswordSecurity(pass) {
+
     var passDOM = document.getElementById("password");
     var passLength = pass.length; //get the length of the password
     var numUpper, numLower, numInts, numCharacters, numLetters,strength,lengthScore,lowerAndUpperScore,noOfIntsScore,noOfSpecialCharsScore,mixtureScore;
@@ -307,43 +319,42 @@ function PasswordSecurity(pass)
     //TODO: check for repetition based on sequences. L33T checking, keyboard runs
     
  
-    //TODO: add an image based on the score
     //award a final score based on password entropy
     if (entropy >= 300 && !hasRepetition) {
         strength = "You are just mashing the keyboard, aren't you?"
-        passDOM.style.borderLeftStyle = "black";
+        passDOM.style.borderColor = "black";
     } else if (entropy >= 130 && !hasRepetition) {
         strength = "Godlike";
         passDOM.style.borderColor = "black";
-        passDOM.style.backgroundImage = "url('./images/shield.png')";
+        shield.src = "./images/shield.png";
     } else if (entropy >= 110 && !hasRepetition) {
         strength = "Very Strong";
         passDOM.style.borderColor = "#39e600";
-        passDOM.style.backgroundImage = "url('./images/green.png')";
+        shield.src = "./images/green.png";
     } else if (entropy >= 90 && !hasRepetition) {
         strength = "Strong" ;
         passDOM.style.borderColor = "#00cccc" //green
-        passDOM.style.backgroundImage = "url('./images/green.png')";
+        shield.src = "./images/green.png";
     } else if (entropy >= 60) {
         strength = "Above Average"
         passDOM.style.borderColor = "#aa00ff"; //blue
-        passDOM.style.backgroundImage = "url('./images/blue.png')";
+        shield.src = "./images/blue.png";
     } else if (entropy >= 45) {
         strength = "Average";
         passDOM.style.borderColor = "#0099ff"; //yellow
-        passDOM.style.backgroundImage = "url('./images/blue.png')";
+        shield.src = "./images/blue.png";
     } else if (entropy >= 35) {
         strength = "Weak";
         passDOM.style.borderColor = "#ffa64d"; //orange
-        passDOM.style.backgroundImage = "url('./images/yellow.png')";
+        shield.src = "./images/yellow.png";
     } else if (entropy >= 0) {
         strength = "Very Weak";
         passDOM.style.borderColor = "#DA252E"; //red
-        passDOM.style.backgroundImage = "url('./images/red.png')";
+        shield.src = "./images/red.png";
     } else { //contains repetition
         strength = "Average";
         passDOM.style.borderColor = "#e6e600"; //yellow
-        passDOM.style.backgroundImage = "url('./images/blue.png')";
+        shield.src = "./images/blue.png";
     }
 
     var extra;

@@ -1,9 +1,9 @@
 #generatorContainer
 {
     margin:auto;
-    width: 500px;
-    height:340px;
-    -webkit-transition: 0.5s;
+    width: 510px;
+    height:385px;
+    -webkittransition: 0.5s;
     transition: 0.5s;
     border:4px solid #DA252E;
 }
@@ -22,8 +22,9 @@
     -webkit-transition: 0.5s;
     transition: 0.5s;
     background-color:white;
-    color: black;
+    color: #DA252E;
     border: 1px solid black;
+    font-size: 19px;
 }
 
 #generateButton {
@@ -65,6 +66,10 @@
     right: 0;
   }
 
+  #generateButton:active {
+    transform: scale(0.9,0.9);
+  }
+
 /* The container */
 .checkBox {
     display: block;
@@ -97,7 +102,6 @@
     height: 25px;
     width: 25px;
     background-color: #eee;
-    border: 1px solid black;
   }
   
   /* On mouse-over, add a grey background color */
@@ -155,6 +159,37 @@
       transform: translateY(0); 
     }
   }
+
+  #copyButton
+  {
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 12px;
+    margin: 4px 2px;
+    cursor: pointer;
+    opacity: 0.7; /* Set transparency (for mouse-over effects on hover) */
+    -webkit-transition: .2s; /* 0.2 seconds transition on hover */
+    transition: opacity .2s;
+    background-color: #DA252E;
+  }
+
+  #copyButton:hover
+  {
+    opacity: 1;
+  }
+
+  #copyButton:active
+  {
+    transform: scale(0.9,0.9);
+  }
+
+
+ 
  
 @media screen and (max-width: 900px) {
 

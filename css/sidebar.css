@@ -104,8 +104,7 @@
   
   /* On screens that are less than 621px, display the hamgburger menu instead of text */
   @media screen and (max-width: 825px) {
-   
-  .sidebar.responsive {position: relative; margin-top: -10px;margin-left:-8px;width:105%}
+  .sidebar.responsive {position: relative; margin-top: -10px;margin-left:-8px;width:105%;}
   .sidebar a:not(:first-child) {display: none;}
   .sidebar.responsive a.icon {
         position: relative;
