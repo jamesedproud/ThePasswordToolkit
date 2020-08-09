@@ -119,7 +119,9 @@
                     <h2 style = "display: inline-block;"><u>Password Generator</u></h2>
                     <img src = "images/bot.png" class = "contentIcon">
                 </div>
-                <p class = "centered otherText">First customize your password. You can generate as many passwords as you like.</p>
+                <p class = "centered otherText" style = "line-height: 1.6;">First customize your password. You can generate as many passwords as you like. Once you've generated a password
+                    paste it into the <a href = "#strengthSection">Password Checker</a> to see how secure it is.
+                </p>
                 <div id = "generatorContainer" style = "padding-top:10px;">
                         <div class = "centered" id = "custom-select">
                                 <p id = "sliderLbl" style = "display: inline-block;">Length: </p>
@@ -204,7 +206,7 @@
                     during a brute-force attack. E.g. 50 bits entropy (2^50) = 1,125,899,906,842,624 possible attempts. <br><br> On average, a hacker will only require half of the possible attempts before cracking
                     the password. Another way to calculate the possible combinations is to use the pool size. Take for example, a password of 4 characters with only lower case letters. The pool size would be 26
                     as only lower case letters are being used. So (26 ^ 4) means there are 456,976 possible combinations with an entropy of <span class = "tooltip"  style = "margin-left:0;">18.80<span class = "tooltiptext">2^18.80 = 456,976</span></span> (log2(26^4)).<br><br> By increasing the password by just one letter, the possible combinations jumps to 11,881,376. From this, we can see that by just increasing the entropy of a password by 1 bit, the possible attempts significantly increases.
-                    By understanding this, it becomes clear that <strong>the single most important factor when creating a strong password is length</strong> not complexity. So yes, size matters. <br><br>
+                    By understanding this, it becomes clear that <strong>the single most important factor when creating a strong password is length</strong> not complexity. <br><br>
                     Don't be fooled by the size of these numbers though, as compuational power increases the number of passwords that can be guessed per second also increases.
                     Take our earlier examples, a 4 character password with 18.80 bits of entropy at 1 million
                     guesses per second would take 0.46 seconds for the password to be cracked if all guesses were exhausted. The second password with 5 characers and 23.50 bits of entropy would take 11 seconds to be cracked. With the correct equipment, a hacker can potentially test billions or even trillions of passwords per second. So how secure if your password really? This is why maximizing the character pool is also important (numbers, symbols, upper/lower case). <br><br>

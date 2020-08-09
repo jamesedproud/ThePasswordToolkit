@@ -8,8 +8,8 @@ var before;
 
 //CHECK THE STRENGTH OF THE USER'S PASSWORD////////////////////////////////////
 passDOM.addEventListener('keydown', function(e) {
-         if (e.metaKey == false && e.key != "v" || e.ctrlKey == false && e.key != "v") //prevents 'v' from being appended if user presses ctrl v
-            strengthInit(e);
+    if (e.metaKey == false && e.key != "v" || e.ctrlKey == false && e.key != "v") //prevents 'v' from being appended if user presses ctrl v
+        strengthInit(e);
 });
 
 passDOM.addEventListener('paste', function(e) {
@@ -66,8 +66,15 @@ function strengthInit(eKey) {
 }
 
 function appendPasted(pasted) {
-    pass = pass.slice(0, passDOM.selectionStart) + pasted + pass.slice(passDOM.selectionStart);
-    finalScore = PasswordSecurity(pass);
+    if (passDOM.selectionStart < pass.length && passDOM.selectionEnd == pass.length || passDOM.selectionEnd < pass.length) { //highlight and replace
+        result = pass.substring(passDOM.selectionStart, passDOM.selectionEnd);
+        pass = pass.replace(result,"");
+        pass = pass.slice(0, passDOM.selectionStart) + pasted + pass.slice(passDOM.selectionStart);
+        finalScore = PasswordSecurity(pass);
+    } else {
+        pass = pass.slice(0, passDOM.selectionStart) + pasted + pass.slice(passDOM.selectionStart);
+        finalScore = PasswordSecurity(pass);
+    }
     updateUI(finalScore);
     console.clear();
     console.log("Password: " + pass + "// Length: " + pass.length);  
@@ -75,7 +82,7 @@ function appendPasted(pasted) {
 
 function updateUI(finalScore) {
 
-    var html =  '<div id = "resultContainer"><h3><u>Overall Results</u></h3><p id = "strength"></p><p id = "entropy"></p><p id = "crackTime" class = "resultItem"></p><span class = "tooltip">Info<span class = "tooltiptext" id= "crackTimeHint"></span></span><br><br><p id = "rating" class = "resultItem"></p><span class = "tooltip">Info<span class = "tooltiptext" id= "ratingHint"></span></span><hr><div style = "margin-top: 10px;"><p id = "lengthScore" class = "resultItem"></p><span class = "tooltip">Hint<span class = "tooltiptext" id= "lengthTip"></span></span><br><br><p id = "lowerAndUpperScore" class = "resultItem"></p><span class = "tooltip">Hint<span class = "tooltiptext" id= "lowerUpperHint"></span></span><br><br><p id = "noOfIntsScore" class = "resultItem"></p><span class = "tooltip">Hint<span class = "tooltiptext" id= "intHint"></span></span><br><br><p id = "noOfSpecialsScore" class = "resultItem"></p><span class = "tooltip">Hint<span class = "tooltiptext" id= "specialHint"></span></span><br><br><p id = "mixtureScore" class = "resultItem"></p><span class = "tooltip">Hint<span class = "tooltiptext" id= "bonusHint"></span></span><hr><h3>Dictionary Attacks</h3><p id = "bonus" class = "bonus"></p></div></div>';
+    var html =  '<div id = "resultContainer"><h3><u>Overall Results</u></h3><p id = "strength"></p><p id = "entropy"></p><p id = "crackTime" class = "resultItem"></p><span class = "tooltip">Info<span class = "tooltiptext" id= "crackTimeHint"></span></span><br><br><p id = "rating" class = "resultItem"></p><span class = "tooltip">Info<span class = "tooltiptext" id= "ratingHint"></span></span><hr><div style = "margin-top: 10px;"><p id = "lengthScore" class = "resultItem"></p><span class = "tooltip">Hint<span class = "tooltiptext" id= "lengthTip"></span></span><br><br><p id = "lowerAndUpperScore" class = "resultItem"></p><span class = "tooltip">Hint<span class = "tooltiptext" id= "lowerUpperHint"></span></span><br><br><p id = "noOfIntsScore" class = "resultItem"></p><span class = "tooltip">Hint<span class = "tooltiptext" id= "intHint"></span></span><br><br><p id = "noOfSpecialsScore" class = "resultItem"></p><span class = "tooltip">Hint<span class = "tooltiptext" id= "specialHint"></span></span><br><br><p id = "mixtureScore" class = "resultItem"></p><span class = "tooltip">Hint<span class = "tooltiptext" id= "bonusHint"></span></span><p id = "bonus" class = "bonus"></p></div></div>';
 
     if (!document.body.contains(document.getElementById("resultContainer")))
     passDOM.insertAdjacentHTML('afterend',html);

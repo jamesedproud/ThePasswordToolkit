@@ -196,6 +196,7 @@
 #generatorContainer
 {
     width: 400px;
+    height: 420px;
 }
 
 .checkBox 
@@ -210,6 +211,7 @@
     #generatorContainer
     {
         width: 280px;
+        height: 420px;
     }
 
     #generated 
